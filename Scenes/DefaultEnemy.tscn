@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://mbp2hl0vpxhb"]
+
+[ext_resource type="Texture2D" uid="uid://dkm7s6tlt0vxr" path="res://icon.svg" id="1_45v3t"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w7esr"]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+collision_layer = 4
+
+[node name="Icon" type="Sprite2D" parent="."]
+modulate = Color(1, 0.095089, 0.450237, 1)
+position = Vector2(1.90735e-06, -1.90735e-06)
+scale = Vector2(0.15625, 0.234375)
+texture = ExtResource("1_45v3t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_w7esr")
