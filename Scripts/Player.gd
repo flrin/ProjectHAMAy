@@ -6,6 +6,8 @@ const JUMP_VELOCITY = -400.0
 const DODGE_ACCELERATION = 10
 const PUSHBACK_SPEED  = 500
 
+signal damage_taken(ammount)
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var dodge_accel = 1
@@ -14,9 +16,13 @@ var hitbox_area
 var is_pushed = false
 var heart_ammount = 3
 
+var ui
+
 func _ready():
 	collision_shape = $CollisionShape2D
 	hitbox_area = $HitboxArea
+	ui = get_node("../UI/UI")
+	damage_taken.connect(ui.change_health)
 	set_collision_mask_from_list([2,3,4,5], true)
 
 func _physics_process(delta):
@@ -58,6 +64,9 @@ func set_collision_mask_from_list(list_to_set, value): #value e ori true ori fal
 		set_collision_mask_value(i, value)
 
 func take_damage(ammount, hit_position):
+	#Emit signal
+	emit_signal("damage_taken", ammount)
+	
 	#Knock back the player
 	var pushback_direction = position - hit_position
 	pushback_direction = pushback_direction.normalized()

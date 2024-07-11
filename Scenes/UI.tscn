@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://21gmtvk717cv"]
+
+[ext_resource type="Script" path="res://Scenes/UI.gd" id="1_327lg"]
+[ext_resource type="PackedScene" uid="uid://d2gp11g05uadj" path="res://Scenes/HealthBar.tscn" id="1_faax2"]
+
+[sub_resource type="Theme" id="Theme_hvpj3"]
+
+[node name="UI" type="CanvasLayer"]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_hvpj3")
+script = ExtResource("1_327lg")
+
+[node name="HealthBar" parent="UI" instance=ExtResource("1_faax2")]
+clip_contents = true
+custom_minimum_size = Vector2(102, 35)
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 102.0
+offset_bottom = 35.0
+grow_horizontal = 1
+grow_vertical = 1
+scale = Vector2(5, 5)

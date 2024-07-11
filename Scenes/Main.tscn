@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://2e5wlli0atly"]
+[gd_scene load_steps=5 format=3 uid="uid://2e5wlli0atly"]
 
+[ext_resource type="PackedScene" uid="uid://21gmtvk717cv" path="res://Scenes/UI.tscn" id="1_reoax"]
 [ext_resource type="PackedScene" uid="uid://be7r62bppl55r" path="res://Scenes/Player.tscn" id="2_trfb5"]
 [ext_resource type="PackedScene" uid="uid://mbp2hl0vpxhb" path="res://Scenes/DefaultEnemy.tscn" id="3_7ygky"]
 [ext_resource type="PackedScene" uid="uid://davy56t4yxi7i" path="res://Scenes/TileMap.tscn" id="3_t750v"]
@@ -13,3 +14,5 @@ position = Vector2(-40, -63)
 position = Vector2(167, -16)
 
 [node name="TileMap" parent="." instance=ExtResource("3_t750v")]
+
+[node name="UI" parent="." instance=ExtResource("1_reoax")]
