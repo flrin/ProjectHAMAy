@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-const DODGE_ACCELERATION = 10
+const SPEED = 200.0
+const JUMP_VELOCITY = -300.0
+const DODGE_ACCELERATION = 5
 const PUSHBACK_SPEED  = 500
-const AFTERIMAGE_NUMBER = 10
-const AFTERIMAGE_FREQ = 0.1
+const AFTERIMAGE_NUMBER = 7
+const AFTERIMAGE_FREQ = 0.01
 
 signal damage_taken(ammount)
 
@@ -23,8 +23,13 @@ var afterimage_timer
 var ui
 var afterimage_count = 10
 var tilemap
+var walking_animation
+var fake_direction = 1
+var walking_animation_frames
 
 func _ready():
+	walking_animation = $AnimatedSprite2D#walking animation
+	walking_animation.play()
 	collision_shape = $CollisionShape2D
 	hitbox_area = $HitboxArea
 	ui = get_node("../UI/UI")
@@ -32,6 +37,8 @@ func _ready():
 	set_collision_mask_from_list([2,3,4,5], true)
 	afterimage_timer = $AfterimageTimer
 	tilemap=get_node("../TileMap")
+	walking_animation_frames = walking_animation.get_sprite_frames()
+	print(walking_animation_frames[0])
 	
 func _physics_process(delta):
 	#Process collisions
@@ -55,11 +62,15 @@ func _physics_process(delta):
 			set_collision_mask_from_list([2,3,4,5], true)
 			hitbox_area.monitoring = true
 	else:
-		dodge_accel -= 1
+		dodge_accel -= 0.5
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis("ui_left", "ui_right")
+	if direction != fake_direction and direction:
+		scale.x *= -1
+		fake_direction = direction
+	
 	if direction and is_pushed == false:
 		velocity.x = direction * SPEED * dodge_accel 
 	else:
@@ -101,6 +112,13 @@ func _on_hitbox_body_entered(body):
 	take_damage(1, body.position)
 
 func start_afterimage():
+	if afterimage_count == 0:
+		afterimage_count = AFTERIMAGE_NUMBER
+	var afterimage_node = afterimage_scene.instantiate()
+	afterimage_node.get_ready(player_model, position)
+	get_node("..").add_child(afterimage_node)
+	
+	afterimage_count -= 1
 	afterimage_timer.start(AFTERIMAGE_FREQ)
 
 
@@ -111,7 +129,7 @@ func _on_afterimage_timer_timeout():
 		get_node("..").add_child(afterimage_node)
 		
 		afterimage_count -= 1
-		afterimage_timer.start(AFTERIMAGE_FREQ)
+		afterimage_timer.start(AFTERIMAGE_FREQ * AFTERIMAGE_NUMBER/afterimage_count)
 	else:
 		afterimage_count = AFTERIMAGE_NUMBER
 

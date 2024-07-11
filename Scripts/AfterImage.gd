@@ -16,7 +16,7 @@ func get_ready(res, pos):
 	position = pos
 	model_sprite.position.y = -model_sprite.texture.get_height()/2
 	
-	model_sprite.modulate = Color(0.523,1,1,0.523)
+	model_sprite.modulate = Color(0.43,0.1,0.03,0.423)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
