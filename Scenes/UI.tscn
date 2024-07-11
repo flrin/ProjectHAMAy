@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://21gmtvk717cv"]
 
-[ext_resource type="Script" path="res://Scenes/UI.gd" id="1_327lg"]
+[ext_resource type="Script" path="res://Scripts/UI.gd" id="1_1676t"]
 [ext_resource type="PackedScene" uid="uid://d2gp11g05uadj" path="res://Scenes/HealthBar.tscn" id="1_faax2"]
 
 [sub_resource type="Theme" id="Theme_hvpj3"]
@@ -15,7 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_hvpj3")
-script = ExtResource("1_327lg")
+script = ExtResource("1_1676t")
 
 [node name="HealthBar" parent="UI" instance=ExtResource("1_faax2")]
 clip_contents = true

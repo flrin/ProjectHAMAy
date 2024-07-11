@@ -5,6 +5,8 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 const DODGE_ACCELERATION = 10
 const PUSHBACK_SPEED  = 500
+const AFTERIMAGE_NUMBER = 10
+const AFTERIMAGE_FREQ = 0.1
 
 signal damage_taken(ammount)
 
@@ -15,8 +17,11 @@ var collision_shape
 var hitbox_area
 var is_pushed = false
 var heart_ammount = 3
-
+var player_model = load("res://Assets/Characters/PlayerCharacter.png")
+var afterimage_scene = load("res://Scenes/AfterImage.tscn")
+var afterimage_timer
 var ui
+var afterimage_count = 10
 
 func _ready():
 	collision_shape = $CollisionShape2D
@@ -24,6 +29,7 @@ func _ready():
 	ui = get_node("../UI/UI")
 	damage_taken.connect(ui.change_health)
 	set_collision_mask_from_list([2,3,4,5], true)
+	afterimage_timer = $AfterimageTimer
 
 func _physics_process(delta):
 	#Process collisions
@@ -42,6 +48,7 @@ func _physics_process(delta):
 			dodge_accel = DODGE_ACCELERATION
 			set_collision_mask_from_list([2,3,4,5], false)
 			hitbox_area.monitoring = false
+			start_afterimage()
 		else:
 			set_collision_mask_from_list([2,3,4,5], true)
 			hitbox_area.monitoring = true
@@ -88,3 +95,17 @@ func _on_hitbox_area_entered(area):
 func _on_hitbox_body_entered(body):
 	take_damage(1, body.position)
 
+func start_afterimage():
+	afterimage_timer.start(AFTERIMAGE_FREQ)
+
+
+func _on_afterimage_timer_timeout():
+	if afterimage_count > 0:
+		var afterimage_node = afterimage_scene.instantiate()
+		afterimage_node.get_ready(player_model, position)
+		get_node("..").add_child(afterimage_node)
+		
+		afterimage_count -= 1
+		afterimage_timer.start(AFTERIMAGE_FREQ)
+	else:
+		afterimage_count = AFTERIMAGE_NUMBER

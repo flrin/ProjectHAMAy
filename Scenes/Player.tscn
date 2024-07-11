@@ -1,25 +1,22 @@
 [gd_scene load_steps=5 format=3 uid="uid://be7r62bppl55r"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_kmc2f"]
-[ext_resource type="Texture2D" uid="uid://dkm7s6tlt0vxr" path="res://icon.svg" id="1_xaae3"]
+[ext_resource type="Texture2D" uid="uid://bj6phx3urxxpm" path="res://Assets/Characters/PlayerCharacter.png" id="2_b4rcf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_frnhi"]
+radius = 7.0
+height = 46.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4qge0"]
-radius = 19.0
-height = 42.0
+radius = 8.0
+height = 48.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
 script = ExtResource("1_kmc2f")
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(-4.17233e-07, -16)
-scale = Vector2(0.1875, 0.25)
-texture = ExtResource("1_xaae3")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(-1, -24)
 shape = SubResource("CapsuleShape2D_frnhi")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -32,8 +29,17 @@ collision_mask = 28
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea"]
-position = Vector2(0, -15)
+position = Vector2(-1, -23)
 shape = SubResource("CapsuleShape2D_4qge0")
+
+[node name="PlayerCharacter" type="Sprite2D" parent="."]
+position = Vector2(0, -32)
+texture = ExtResource("2_b4rcf")
+
+[node name="AfterimageTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
 
 [connection signal="area_entered" from="HitboxArea" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="AfterimageTimer" to="." method="_on_afterimage_timer_timeout"]

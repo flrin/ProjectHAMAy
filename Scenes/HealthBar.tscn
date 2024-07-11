@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2gp11g05uadj"]
 
-[ext_resource type="Script" path="res://Scenes/HealthBar.gd" id="1_c2oe1"]
 [ext_resource type="Texture2D" uid="uid://dr7kvosbkrn0e" path="res://Assets/Other/Health/Ball.png" id="1_vqhf8"]
+[ext_resource type="Script" path="res://Scripts/HealthBar.gd" id="1_yi7ln"]
 
 [node name="HealthBar" type="Control"]
 layout_mode = 3
@@ -10,7 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_c2oe1")
+script = ExtResource("1_yi7ln")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
