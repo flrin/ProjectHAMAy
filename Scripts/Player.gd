@@ -22,6 +22,7 @@ var afterimage_scene = load("res://Scenes/AfterImage.tscn")
 var afterimage_timer
 var ui
 var afterimage_count = 10
+var tilemap
 
 func _ready():
 	collision_shape = $CollisionShape2D
@@ -30,7 +31,8 @@ func _ready():
 	damage_taken.connect(ui.change_health)
 	set_collision_mask_from_list([2,3,4,5], true)
 	afterimage_timer = $AfterimageTimer
-
+	tilemap=get_node("../TileMap")
+	
 func _physics_process(delta):
 	#Process collisions
 
@@ -39,7 +41,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !Input.is_action_pressed("ui_down"):
 		velocity.y = JUMP_VELOCITY
 
 	#Handle dodge
@@ -64,6 +66,9 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 	if velocity.x == 0:
 		is_pushed = false
+	
+	fall_down_ledge() #nus unde vrei sa lasi asta
+	
 	move_and_slide()
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
@@ -109,3 +114,14 @@ func _on_afterimage_timer_timeout():
 		afterimage_timer.start(AFTERIMAGE_FREQ)
 	else:
 		afterimage_count = AFTERIMAGE_NUMBER
+
+func drop_down_ledge():
+	position.y += 3
+
+func fall_down_ledge():
+	var tile_coords=tilemap.local_to_map(tilemap.to_local(global_position))
+	var data = tilemap.get_cell_tile_data(1,tile_coords) #1 e layer-u daca vrei sa iei datele de la alte layer numa schimba aia (daca vrei sa detectezi daca stai pe pamant de exmplu sau pe piatra)
+	if data:
+		var type = data.get_custom_data("type")
+		if type == "ledge_1" && is_on_floor() && Input.is_action_pressed("ui_down") && Input.is_action_just_pressed("ui_space"): #daca o sa avem mai multe tipuri de ledge-uri o sa lasam numa in caz general si le numim pe toate ledge xD ca sa nu ne batem capu cu ledge_1&&ledge_2 etc
+			drop_down_ledge()
