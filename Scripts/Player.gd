@@ -2,10 +2,10 @@ extends CharacterBody2D
 
 
 const SPEED = 200.0
-const JUMP_VELOCITY = -300.0
+const JUMP_VELOCITY = -350.0
 const DODGE_ACCELERATION = 5
 const PUSHBACK_SPEED  = 500
-const AFTERIMAGE_NUMBER = 7
+const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
 
 signal damage_taken(ammount)
@@ -27,6 +27,7 @@ var walking_animation
 var fake_direction = 1
 var walking_animation_frames
 
+
 func _ready():
 	walking_animation = $AnimatedSprite2D#walking animation
 	walking_animation.play()
@@ -38,7 +39,7 @@ func _ready():
 	afterimage_timer = $AfterimageTimer
 	tilemap=get_node("../TileMap")
 	walking_animation_frames = walking_animation.get_sprite_frames()
-	print(walking_animation_frames[0])
+	
 	
 func _physics_process(delta):
 	#Process collisions
@@ -70,7 +71,12 @@ func _physics_process(delta):
 	if direction != fake_direction and direction:
 		scale.x *= -1
 		fake_direction = direction
-	
+		
+	if direction == 0: #trebe animatie de idle cand cacam
+		walking_animation.stop()
+	else :
+		walking_animation.play()
+		
 	if direction and is_pushed == false:
 		velocity.x = direction * SPEED * dodge_accel 
 	else:
@@ -115,7 +121,7 @@ func start_afterimage():
 	if afterimage_count == 0:
 		afterimage_count = AFTERIMAGE_NUMBER
 	var afterimage_node = afterimage_scene.instantiate()
-	afterimage_node.get_ready(player_model, position)
+	afterimage_node.get_ready(player_model, position, fake_direction)
 	get_node("..").add_child(afterimage_node)
 	
 	afterimage_count -= 1
@@ -125,7 +131,7 @@ func start_afterimage():
 func _on_afterimage_timer_timeout():
 	if afterimage_count > 0:
 		var afterimage_node = afterimage_scene.instantiate()
-		afterimage_node.get_ready(player_model, position)
+		afterimage_node.get_ready(player_model, position, fake_direction)
 		get_node("..").add_child(afterimage_node)
 		
 		afterimage_count -= 1
