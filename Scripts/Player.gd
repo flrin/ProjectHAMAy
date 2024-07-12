@@ -26,7 +26,7 @@ var tilemap
 var walking_animation
 var fake_direction = 1
 var walking_animation_frames
-
+var jump_counter = 2
 
 func _ready():
 	walking_animation = $AnimatedSprite2D#walking animation
@@ -49,8 +49,22 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor() && !Input.is_action_pressed("ui_down"):
+	if is_on_floor():
+		if Input.is_action_just_pressed("ui_accept"):
+			if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
+				velocity.y = JUMP_VELOCITY
+				jump_counter -= 1
+		else:
+			jump_counter = 3
+	else:
+		if Input.is_action_just_pressed("ui_accept"):
+			if jump_counter > 0:
+				velocity.y = JUMP_VELOCITY
+				jump_counter -= 1
+	
+	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")):
 		velocity.y = JUMP_VELOCITY
+		jump_counter -= 1
 
 	#Handle dodge
 	if dodge_accel == 1:
