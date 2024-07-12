@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED = 200.0
 const JUMP_VELOCITY = -350.0
 const DODGE_ACCELERATION = 5
-const PUSHBACK_SPEED  = 500
+const PUSHBACK_SPEED  = 300
 const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
 
@@ -16,7 +16,7 @@ var dodge_accel = 1
 var collision_shape
 var hitbox_area
 var is_pushed = false
-var heart_ammount = 3
+var heart_ammount = 8
 var player_model = load("res://Assets/Characters/PlayerCharacter.png")
 var afterimage_scene = load("res://Scenes/AfterImage.tscn")
 var afterimage_timer
@@ -27,6 +27,8 @@ var walking_animation
 var fake_direction = 1
 var walking_animation_frames
 var jump_counter = 2
+var pushback_timer
+var dodge_count = 1
 
 func _ready():
 	walking_animation = $AnimatedSprite2D#walking animation
@@ -39,14 +41,17 @@ func _ready():
 	afterimage_timer = $AfterimageTimer
 	tilemap=get_node("../TileMap")
 	walking_animation_frames = walking_animation.get_sprite_frames()
-	
+	pushback_timer = $PushbackTimer
 	
 func _physics_process(delta):
 	#Process collisions
 
 	# Add the gravity.
 	if not is_on_floor():
-		velocity.y += gravity * delta
+		if is_pushed == false:
+			velocity.y += gravity * delta
+		else:
+			velocity.y += gravity * delta * 2
 
 	# Handle jump.
 	if is_on_floor():
@@ -57,32 +62,36 @@ func _physics_process(delta):
 		else:
 			jump_counter = 3
 	else:
-		if Input.is_action_just_pressed("ui_accept"):
+		if Input.is_action_just_pressed("ui_accept") and is_pushed == false:
 			if jump_counter > 0:
 				velocity.y = JUMP_VELOCITY
 				jump_counter -= 1
 	
-	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")):
+	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
 		velocity.y = JUMP_VELOCITY
 		jump_counter -= 1
 
 	#Handle dodge
 	if dodge_accel == 1:
-		if Input.is_action_just_pressed("ui_dodge"):
-			dodge_accel = DODGE_ACCELERATION
-			set_collision_mask_from_list([2,3,4,5], false)
-			hitbox_area.monitoring = false
-			start_afterimage()
+		if Input.is_action_just_pressed("ui_dodge") and is_on_floor():
+			if is_pushed == false:
+				dodge_accel = DODGE_ACCELERATION
+				set_collision_mask_from_list([2,3,4,5], false)
+				hitbox_area.set_deferred("monitoring", false) 
+				start_afterimage()
+				dodge_count = 1
 		else:
-			set_collision_mask_from_list([2,3,4,5], true)
-			hitbox_area.monitoring = true
+			if dodge_count == 1:
+				set_collision_mask_from_list([2,3,4,5], true)
+				hitbox_area.set_deferred("monitoring", true) 
+				dodge_count = 0
 	else:
 		dodge_accel -= 0.5
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction != fake_direction and direction:
+	if direction != fake_direction and direction and is_pushed == false:
 		scale.x *= -1
 		fake_direction = direction
 		
@@ -91,13 +100,17 @@ func _physics_process(delta):
 	else :
 		walking_animation.play()
 		
-	if direction and is_pushed == false:
-		velocity.x = direction * SPEED * dodge_accel 
+	if is_pushed == false:
+		if direction:
+			velocity.x = direction * SPEED * dodge_accel 
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
-	if velocity.x == 0:
-		is_pushed = false
-		set_color_default()
+		if is_on_floor():
+			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
+
+	if velocity.x == 0 and velocity.y == 0 and is_pushed == true and pushback_timer.is_stopped():
+		pushback_timer.start(0.3)
 	
 	fall_down_ledge() #nus unde vrei sa lasi asta
 	
@@ -114,12 +127,17 @@ func take_damage(ammount, hit_position):
 	#Emit signal
 	emit_signal("damage_taken", ammount)
 	
-	#Knock back the player
+	#Push back the player
 	var pushback_direction = position - hit_position
 	pushback_direction = pushback_direction.normalized()
-	pushback_direction.x *=2
+	pushback_direction.x *= 2
+	pushback_direction.y *= 0.5
 	velocity = pushback_direction * PUSHBACK_SPEED
 	is_pushed = true
+	
+	set_collision_mask_from_list([2,3,4,5], false)
+	hitbox_area.set_deferred("monitoring", false) 
+
 
 	#Substract hearts
 	heart_ammount -= ammount
@@ -170,3 +188,13 @@ func fall_down_ledge():
 
 func set_color_default():
 	modulate = Color(1,1,1,1)
+
+
+func _on_pushback_timer_timeout():
+	if is_pushed == true:
+		is_pushed = false
+		pushback_timer.start(0.3)
+	else:
+		set_color_default()
+		set_collision_mask_from_list([2,3,4,5], true)
+		hitbox_area.set_deferred("monitoring", true)

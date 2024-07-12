@@ -6,8 +6,8 @@ var lit_candels_res = [load("res://Assets/Other/Health/image1.png"), load("res:/
 var unlit_candels_res = [load("res://Assets/Other/Health/image11.png"), load("res://Assets/Other/Health/image22.png"), load("res://Assets/Other/Health/image33.png"), load("res://Assets/Other/Health/image44.png"), load("res://Assets/Other/Health/image55.png"), load("res://Assets/Other/Health/image66.png"), load("res://Assets/Other/Health/image77.png"), load("res://Assets/Other/Health/image88.png")]
 
 var candles = []
-var max_candles = 3
-var number_of_lit_candels = 3
+var max_candles = 8
+var number_of_lit_candels = 8
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
