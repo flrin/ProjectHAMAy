@@ -29,8 +29,10 @@ var walking_animation_frames
 var jump_counter = 2
 var pushback_timer
 var dodge_count = 1
+var camera
 
 func _ready():
+	camera = $Camera2D
 	walking_animation = $AnimatedSprite2D#walking animation
 	walking_animation.play()
 	collision_shape = $CollisionShape2D
@@ -145,6 +147,7 @@ func take_damage(ammount, hit_position):
 		game_over()
 
 func game_over():
+	camera.reparent(get_node(".."))
 	queue_free()
 
 func _on_hitbox_area_entered(area):

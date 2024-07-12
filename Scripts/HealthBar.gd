@@ -9,8 +9,13 @@ var candles = []
 var max_candles = 8
 var number_of_lit_candels = 8
 
+var full_ball
+var broken_ball
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	full_ball = $TextureRect
+	broken_ball = $TextureRect2
 	candle_container = $HBoxContainer
 	for i in range(0,8):
 		var new_candle = TextureRect.new()
@@ -35,6 +40,10 @@ func change_candles(ammount):
 				candles[i].texture = unlit_candels_res[i]
 	
 	number_of_lit_candels += ammount
+	
+	if number_of_lit_candels == 0:
+		full_ball.visible = false
+		broken_ball.visible = true
 
 func set_max_candle_number(num):
 	for i in range(0,num):

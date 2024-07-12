@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2gp11g05uadj"]
+[gd_scene load_steps=4 format=3 uid="uid://d2gp11g05uadj"]
 
 [ext_resource type="Texture2D" uid="uid://dr7kvosbkrn0e" path="res://Assets/Other/Health/Ball.png" id="1_vqhf8"]
 [ext_resource type="Script" path="res://Scripts/HealthBar.gd" id="1_yi7ln"]
+[ext_resource type="Texture2D" uid="uid://o6h3y4hl8sj5" path="res://Assets/Other/Health/BrokenHealth.png" id="3_td8id"]
 
 [node name="HealthBar" type="Control"]
 layout_mode = 3
@@ -26,3 +27,11 @@ offset_top = 7.0
 offset_right = 104.0
 offset_bottom = 24.0
 theme_override_constants/separation = 3
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_top = -35.0
+offset_right = 128.0
+offset_bottom = 45.0
+texture = ExtResource("3_td8id")
