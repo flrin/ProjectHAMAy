@@ -1,17 +1,49 @@
-[gd_scene load_steps=3 format=3 uid="uid://mbp2hl0vpxhb"]
+[gd_scene load_steps=9 format=3 uid="uid://mbp2hl0vpxhb"]
 
-[ext_resource type="Texture2D" uid="uid://dkm7s6tlt0vxr" path="res://icon.svg" id="1_45v3t"]
+[ext_resource type="Script" path="res://Scenes/DefaultEnemy.gd" id="1_s4rxg"]
+[ext_resource type="Texture2D" uid="uid://rfebc10bqoy5" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk1.png" id="2_42mbr"]
+[ext_resource type="Texture2D" uid="uid://tgnsky3d5fgj" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk2.png" id="3_3e85b"]
+[ext_resource type="Texture2D" uid="uid://bcs0n6k0e0x7n" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk3.png" id="4_rnlph"]
+[ext_resource type="Texture2D" uid="uid://dc84k0xgci3o7" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk4.png" id="5_obnlu"]
+[ext_resource type="Texture2D" uid="uid://26v2w4sw57dk" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk5.png" id="6_1uf1t"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w7esr"]
+radius = 7.0
+height = 42.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mis7f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_42mbr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3e85b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_rnlph")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_obnlu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_1uf1t")
+}],
+"loop": true,
+"name": &"WalkingAnimation",
+"speed": 8.0
+}]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
-
-[node name="Icon" type="Sprite2D" parent="."]
-modulate = Color(1, 0.095089, 0.450237, 1)
-position = Vector2(1.90735e-06, -1.90735e-06)
-scale = Vector2(0.15625, 0.234375)
-texture = ExtResource("1_45v3t")
+script = ExtResource("1_s4rxg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -22)
 shape = SubResource("CapsuleShape2D_w7esr")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -31)
+sprite_frames = SubResource("SpriteFrames_mis7f")
+animation = &"WalkingAnimation"
+frame_progress = 0.348969

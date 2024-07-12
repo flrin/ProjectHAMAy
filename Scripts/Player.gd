@@ -87,6 +87,7 @@ func _physics_process(delta):
 	fall_down_ledge() #nus unde vrei sa lasi asta
 	
 	move_and_slide()
+	print(velocity)
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
 	for i in list_to_set:
