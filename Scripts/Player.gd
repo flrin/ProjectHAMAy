@@ -83,17 +83,20 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 	if velocity.x == 0:
 		is_pushed = false
+		set_color_default()
 	
 	fall_down_ledge() #nus unde vrei sa lasi asta
 	
 	move_and_slide()
-	print(velocity)
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
 	for i in list_to_set:
 		set_collision_mask_value(i, value)
 
 func take_damage(ammount, hit_position):
+	#Flash the character white
+	modulate = Color(2, 2, 2, 0.8)
+	
 	#Emit signal
 	emit_signal("damage_taken", ammount)
 	
@@ -150,3 +153,6 @@ func fall_down_ledge():
 		var type = data.get_custom_data("type")
 		if type == "ledge_1" && is_on_floor() && Input.is_action_pressed("ui_down") && Input.is_action_just_pressed("ui_space"): #daca o sa avem mai multe tipuri de ledge-uri o sa lasam numa in caz general si le numim pe toate ledge xD ca sa nu ne batem capu cu ledge_1&&ledge_2 etc
 			drop_down_ledge()
+
+func set_color_default():
+	modulate = Color(1,1,1,1)
