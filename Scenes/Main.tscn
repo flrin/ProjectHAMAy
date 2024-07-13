@@ -10,12 +10,12 @@
 [node name="TileMap" parent="." instance=ExtResource("3_t750v")]
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_trfb5")]
-position = Vector2(238, -42)
+position = Vector2(111, -67)
 
 [node name="TestDummyEnemy" parent="." instance=ExtResource("3_7ygky")]
-position = Vector2(46, 76)
+position = Vector2(-88, 245)
 
 [node name="TestDummyEnemy2" parent="." instance=ExtResource("3_7ygky")]
-position = Vector2(318, 12)
+position = Vector2(324, -43)
 
 [node name="UI" parent="." instance=ExtResource("1_reoax")]
