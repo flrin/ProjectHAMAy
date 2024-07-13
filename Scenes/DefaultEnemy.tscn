@@ -46,7 +46,7 @@ radius = 94.0053
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
-collision_mask = 19
+collision_mask = 17
 script = ExtResource("1_855tx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

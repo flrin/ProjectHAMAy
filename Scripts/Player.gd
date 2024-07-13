@@ -127,11 +127,11 @@ func _physics_process(delta):
 		if is_on_floor():
 			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 
-	if velocity.x == 0 and velocity.y == 0 and is_pushed == true and pushback_timer.is_stopped():
+	if snapped(velocity.x,0.01) == 0 and snapped(velocity.y,0.01) == 0 and is_pushed == true and pushback_timer.is_stopped():
 		pushback_timer.start(0.3)
 	
 	fall_down_ledge() #nus unde vrei sa lasi asta
-	
+
 	move_and_slide()
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
