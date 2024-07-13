@@ -136,7 +136,6 @@ func take_damage(ammount, hit_position):
 	#Push back the player
 	var pushback_direction = position - hit_position
 	pushback_direction = pushback_direction.normalized()
-	print(pushback_direction)
 	pushback_direction.x *= 1.5
 	pushback_direction.y *= 0.5
 	velocity = pushback_direction * PUSHBACK_SPEED
