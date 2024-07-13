@@ -61,7 +61,7 @@ frame_progress = 0.603954
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 19
+collision_mask = 83
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -24)
@@ -79,7 +79,12 @@ shape = SubResource("CircleShape2D_jnhn8")
 [node name="FollowTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_area_entered"]
 [connection signal="area_shape_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_area_shape_entered"]
 [connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
 [connection signal="timeout" from="FollowTimer" to="." method="_on_follow_timer_timeout"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]

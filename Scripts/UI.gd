@@ -13,7 +13,6 @@ var cat_page_number = 0
 func _ready():
 	health_bar = $HealthBar
 	player = get_node("../../Player")
-	print(player)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

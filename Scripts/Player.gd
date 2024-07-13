@@ -7,6 +7,7 @@ const DODGE_ACCELERATION = 5
 const PUSHBACK_SPEED  = 300
 const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
+const DEFAULT_SLOW_DOWN = 1
 
 signal damage_taken(ammount)
 signal interacted_with_npc(npc)
@@ -24,19 +25,24 @@ var afterimage_timer
 var ui
 var afterimage_count = 10
 var tilemap
-var walking_animation
+var animation
 var fake_direction = 1
 var walking_animation_frames
-var jump_counter = 2
+var jump_counter = 1
 var pushback_timer
 var dodge_count = 1
 var camera
 var is_reading = false
+var is_attacking = false
+var hurtbox_area_scene = load("res://Scenes/HurtBox1.tscn")
+var hurtbox_node
+var atttack_slow_down
 
 func _ready():
+	atttack_slow_down = 1
 	camera = $Camera2D
-	walking_animation = $AnimatedSprite2D#walking animation
-	walking_animation.play()
+	animation = $AnimatedSprite2D #animation
+	animation.animation = "walk"
 	collision_shape = $CollisionShape2D
 	hitbox_area = $HitboxArea
 	ui = get_node("../UI/UI")
@@ -44,10 +50,11 @@ func _ready():
 	set_collision_mask_from_list([2,3,4,5], true)
 	afterimage_timer = $AfterimageTimer
 	tilemap=get_node("../TileMap")
-	walking_animation_frames = walking_animation.get_sprite_frames()
+	walking_animation_frames = animation.get_sprite_frames()
 	pushback_timer = $PushbackTimer
 	
 	interacted_with_npc.connect(ui.interacted_with_npc)
+	
 	
 func _physics_process(delta):
 	#Process collisions
@@ -58,7 +65,29 @@ func _physics_process(delta):
 			velocity.y += gravity * delta
 		else:
 			velocity.y += gravity * delta * 2
-
+	
+	#Handle attack
+	if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click"):
+		animation.set_animation("attack")
+		animation.play()
+		atttack_slow_down = DEFAULT_SLOW_DOWN
+	
+	if animation.get_animation() == "attack":
+		if animation.frame == 5 and hurtbox_node == null:
+			is_attacking = true
+			hurtbox_node = hurtbox_area_scene.instantiate()
+			add_child(hurtbox_node)
+		if animation.frame == 9 and is_instance_valid(hurtbox_node):
+			hurtbox_node.queue_free()
+			hurtbox_node = null
+			is_attacking = false
+			atttack_slow_down = 1
+	
+	if animation.get_animation() == "attack":
+		atttack_slow_down = lerpf(atttack_slow_down, 0, delta * 3)
+	else:
+		atttack_slow_down = 1
+	
 	#Handle interact
 	if Input.is_action_just_pressed("ui_interact") and !is_reading:
 		var temp_npc = look_for_group("npc")
@@ -67,17 +96,17 @@ func _physics_process(delta):
 			is_reading = true
 
 	# Handle jump.
-	if !is_pushed and !is_reading:
+	if !is_pushed and !is_reading and !is_attacking:
 		if is_on_floor():
 			if Input.is_action_just_pressed("ui_accept"):
 				if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 			else:
-				jump_counter = 2
+				jump_counter = 1
 		else:
 			if Input.is_action_just_pressed("ui_accept") and is_pushed == false:
-				if jump_counter > 0:
+				if jump_counter > 1:
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 	
@@ -87,7 +116,7 @@ func _physics_process(delta):
 
 	#Handle dodge
 	if dodge_accel == 1:
-		if Input.is_action_just_pressed("ui_dodge") and is_on_floor():
+		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and animation.animation != "attack" and !is_reading:
 			if is_pushed == false:
 				dodge_accel = DODGE_ACCELERATION
 				set_collision_mask_from_list([2,3,4,5], false)
@@ -113,14 +142,16 @@ func _physics_process(delta):
 		scale.x *= -1
 		fake_direction = direction
 		
-	if direction == 0: #trebe animatie de idle cand cacam
-		walking_animation.stop()
-	else :
-		walking_animation.play()
+	if animation.get_animation() != "attack":
+		if direction == 0: #trebe animatie de idle cand cacam
+			animation.stop()
+		else :
+			animation.animation = "walk"
+			animation.play()
 		
 	if is_pushed == false:
-		if direction:
-			velocity.x = direction * SPEED * dodge_accel 
+		if direction and (!is_attacking or !is_on_floor()):
+			velocity.x = direction * SPEED * dodge_accel * atttack_slow_down
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 	else:
@@ -235,3 +266,9 @@ func look_for_group(group):
 
 func text_ended():
 	is_reading = false
+
+
+func _on_animated_sprite_2d_animation_finished():
+	if animation.animation == "attack":
+		animation.animation = "walk"
+		animation.play()
