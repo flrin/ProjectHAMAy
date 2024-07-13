@@ -79,13 +79,17 @@ func _physics_process(delta):
 			if is_pushed == false:
 				dodge_accel = DODGE_ACCELERATION
 				set_collision_mask_from_list([2,3,4,5], false)
+				set_collision_layer_value(2,false)
 				hitbox_area.set_deferred("monitoring", false) 
 				start_afterimage()
 				dodge_count = 1
+				modulate = Color(0.43,0.1,0.03,0.823)
 		else:
 			if dodge_count == 1:
 				set_collision_mask_from_list([2,3,4,5], true)
+				set_collision_layer_value(2,true)
 				hitbox_area.set_deferred("monitoring", true) 
+				set_color_default()
 				dodge_count = 0
 	else:
 		dodge_accel -= 0.5
@@ -132,7 +136,8 @@ func take_damage(ammount, hit_position):
 	#Push back the player
 	var pushback_direction = position - hit_position
 	pushback_direction = pushback_direction.normalized()
-	pushback_direction.x *= 2
+	print(pushback_direction)
+	pushback_direction.x *= 1.5
 	pushback_direction.y *= 0.5
 	velocity = pushback_direction * PUSHBACK_SPEED
 	is_pushed = true
@@ -151,10 +156,10 @@ func game_over():
 	queue_free()
 
 func _on_hitbox_area_entered(area):
-	take_damage(1, area.position)
+	take_damage(1, area.global_position)
 
 func _on_hitbox_body_entered(body):
-	take_damage(1, body.position)
+	take_damage(1, body.global_position)
 
 func start_afterimage():
 	if afterimage_count == 0:

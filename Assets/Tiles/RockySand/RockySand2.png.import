@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcs0n6k0e0x7n"
-path="res://.godot/imported/ZombieWalk3.png-ca3207985491215f341406fc276b7d20.ctex"
+uid="uid://d0mmniwohhmge"
+path="res://.godot/imported/RockySand2.png-876c061885d89019eff7413dc92c7db1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/EnemyAnimation1/ZombieWalk3.png"
-dest_files=["res://.godot/imported/ZombieWalk3.png-ca3207985491215f341406fc276b7d20.ctex"]
+source_file="res://Assets/Tiles/RockySand/RockySand2.png"
+dest_files=["res://.godot/imported/RockySand2.png-876c061885d89019eff7413dc92c7db1.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rfebc10bqoy5"
-path="res://.godot/imported/ZombieWalk1.png-6fabce2ff3b72ed6417c2a3da890345f.ctex"
+uid="uid://bsfe2xmeh5wjd"
+path="res://.godot/imported/ZombieWalkRemake5.png-7a2cf7a0d00c2bf622803ec0cf35ca8a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/EnemyAnimation1/ZombieWalk1.png"
-dest_files=["res://.godot/imported/ZombieWalk1.png-6fabce2ff3b72ed6417c2a3da890345f.ctex"]
+source_file="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake5.png"
+dest_files=["res://.godot/imported/ZombieWalkRemake5.png-7a2cf7a0d00c2bf622803ec0cf35ca8a.ctex"]
 
 [params]
 

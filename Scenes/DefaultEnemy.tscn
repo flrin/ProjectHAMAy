@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://mbp2hl0vpxhb"]
+[gd_scene load_steps=12 format=3 uid="uid://mbp2hl0vpxhb"]
 
 [ext_resource type="Script" path="res://Scenes/DefaultEnemy.gd" id="1_s4rxg"]
-[ext_resource type="Texture2D" uid="uid://rfebc10bqoy5" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk1.png" id="2_42mbr"]
-[ext_resource type="Texture2D" uid="uid://tgnsky3d5fgj" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk2.png" id="3_3e85b"]
-[ext_resource type="Texture2D" uid="uid://bcs0n6k0e0x7n" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk3.png" id="4_rnlph"]
-[ext_resource type="Texture2D" uid="uid://dc84k0xgci3o7" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk4.png" id="5_obnlu"]
-[ext_resource type="Texture2D" uid="uid://26v2w4sw57dk" path="res://Assets/Characters/EnemyAnimation1/ZombieWalk5.png" id="6_1uf1t"]
+[ext_resource type="Texture2D" uid="uid://lxplnvl5ef6c" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake1.png" id="2_raiwv"]
+[ext_resource type="Texture2D" uid="uid://d1yphrwk5madu" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake2.png" id="3_fuafa"]
+[ext_resource type="Texture2D" uid="uid://b6sa6bgsuc3nv" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake3.png" id="4_y3hw8"]
+[ext_resource type="Texture2D" uid="uid://cc1jf4yk386et" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake4.png" id="5_evs1q"]
+[ext_resource type="Texture2D" uid="uid://bsfe2xmeh5wjd" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake5.png" id="6_mbpm1"]
+[ext_resource type="Texture2D" uid="uid://d0xxr324k5qev" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake6.png" id="7_k2nfx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w7esr"]
 radius = 7.0
@@ -15,27 +16,37 @@ height = 42.0
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_42mbr")
+"texture": ExtResource("2_raiwv")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_3e85b")
+"texture": ExtResource("3_fuafa")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_rnlph")
+"texture": ExtResource("4_y3hw8")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_obnlu")
+"texture": ExtResource("5_evs1q")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_1uf1t")
+"texture": ExtResource("6_mbpm1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_k2nfx")
 }],
 "loop": true,
 "name": &"WalkingAnimation",
 "speed": 8.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hxa3r"]
+height = 52.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jnhn8"]
+radius = 94.0053
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
+collision_mask = 19
 script = ExtResource("1_s4rxg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -47,3 +58,28 @@ position = Vector2(0, -31)
 sprite_frames = SubResource("SpriteFrames_mis7f")
 animation = &"WalkingAnimation"
 frame_progress = 0.603954
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 19
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -24)
+shape = SubResource("CapsuleShape2D_hxa3r")
+
+[node name="PlayerDetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 19
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionArea"]
+position = Vector2(0, -26)
+shape = SubResource("CircleShape2D_jnhn8")
+
+[node name="FollowTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_area_entered"]
+[connection signal="area_shape_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_area_shape_entered"]
+[connection signal="body_entered" from="PlayerDetectionArea" to="." method="_on_player_detection_area_body_entered"]
+[connection signal="timeout" from="FollowTimer" to="." method="_on_follow_timer_timeout"]

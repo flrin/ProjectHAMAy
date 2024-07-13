@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tgnsky3d5fgj"
-path="res://.godot/imported/ZombieWalk2.png-5bc54e799d8be8552f7b58b7ecd86e99.ctex"
+uid="uid://bpwgere4bblk"
+path="res://.godot/imported/RockyCornerIN2.png-f646bc2465977174cfaaacb956b1567b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Characters/EnemyAnimation1/ZombieWalk2.png"
-dest_files=["res://.godot/imported/ZombieWalk2.png-5bc54e799d8be8552f7b58b7ecd86e99.ctex"]
+source_file="res://Assets/Tiles/RockySand/RockyCornerIN2.png"
+dest_files=["res://.godot/imported/RockyCornerIN2.png-f646bc2465977174cfaaacb956b1567b.ctex"]
 
 [params]
 
