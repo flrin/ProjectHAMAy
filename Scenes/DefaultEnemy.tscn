@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://mbp2hl0vpxhb"]
 
-[ext_resource type="Script" path="res://Scenes/DefaultEnemy.gd" id="1_s4rxg"]
+[ext_resource type="Script" path="res://Scripts/DefaultEnemy.gd" id="1_855tx"]
 [ext_resource type="Texture2D" uid="uid://lxplnvl5ef6c" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake1.png" id="2_raiwv"]
 [ext_resource type="Texture2D" uid="uid://d1yphrwk5madu" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake2.png" id="3_fuafa"]
 [ext_resource type="Texture2D" uid="uid://b6sa6bgsuc3nv" path="res://Assets/Characters/EnemyAnimation1/ZombieWalkRemake3.png" id="4_y3hw8"]
@@ -47,7 +47,7 @@ radius = 94.0053
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 4
 collision_mask = 19
-script = ExtResource("1_s4rxg")
+script = ExtResource("1_855tx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -22)

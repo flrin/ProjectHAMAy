@@ -9,6 +9,7 @@ const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
 
 signal damage_taken(ammount)
+signal interacted_with_npc(npc)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -30,6 +31,7 @@ var jump_counter = 2
 var pushback_timer
 var dodge_count = 1
 var camera
+var is_reading = false
 
 func _ready():
 	camera = $Camera2D
@@ -45,6 +47,8 @@ func _ready():
 	walking_animation_frames = walking_animation.get_sprite_frames()
 	pushback_timer = $PushbackTimer
 	
+	interacted_with_npc.connect(ui.interacted_with_npc)
+	
 func _physics_process(delta):
 	#Process collisions
 
@@ -55,23 +59,31 @@ func _physics_process(delta):
 		else:
 			velocity.y += gravity * delta * 2
 
+	#Handle interact
+	if Input.is_action_just_pressed("ui_interact") and !is_reading:
+		var temp_npc = look_for_group("npc")
+		if temp_npc:
+			emit_signal("interacted_with_npc", temp_npc)
+			is_reading = true
+
 	# Handle jump.
-	if is_on_floor():
-		if Input.is_action_just_pressed("ui_accept"):
-			if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
-				velocity.y = JUMP_VELOCITY
-				jump_counter -= 1
+	if !is_pushed and !is_reading:
+		if is_on_floor():
+			if Input.is_action_just_pressed("ui_accept"):
+				if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
+					velocity.y = JUMP_VELOCITY
+					jump_counter -= 1
+			else:
+				jump_counter = 2
 		else:
-			jump_counter = 3
-	else:
-		if Input.is_action_just_pressed("ui_accept") and is_pushed == false:
-			if jump_counter > 0:
-				velocity.y = JUMP_VELOCITY
-				jump_counter -= 1
+			if Input.is_action_just_pressed("ui_accept") and is_pushed == false:
+				if jump_counter > 0:
+					velocity.y = JUMP_VELOCITY
+					jump_counter -= 1
 	
-	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
-		velocity.y = JUMP_VELOCITY
-		jump_counter -= 1
+	#if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
+		#velocity.y = JUMP_VELOCITY
+		#jump_counter -= 1
 
 	#Handle dodge
 	if dodge_accel == 1:
@@ -159,8 +171,11 @@ func _on_hitbox_area_entered(area):
 		take_damage(1, area.global_position)
 
 func _on_hitbox_body_entered(body):
-	if !is_pushed:
-		take_damage(1, body.global_position)
+	if body.is_in_group("npc"):
+		pass
+	else:
+		if !is_pushed:
+			take_damage(1, body.global_position)
 
 func start_afterimage():
 	if afterimage_count == 0:
@@ -207,3 +222,16 @@ func _on_pushback_timer_timeout():
 		set_color_default()
 		set_collision_mask_from_list([2,3,4,5], true)
 		hitbox_area.set_deferred("monitoring", true)
+
+func look_for_group(group):
+	for i in hitbox_area.get_overlapping_areas():
+		if i.get_parent().is_in_group(group):
+			return i.get_parent()
+	for i in hitbox_area.get_overlapping_bodies():
+		if i.is_in_group(group):
+			return i
+	
+	return false
+
+func text_ended():
+	is_reading = false
