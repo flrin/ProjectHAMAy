@@ -156,10 +156,12 @@ func game_over():
 	queue_free()
 
 func _on_hitbox_area_entered(area):
-	take_damage(1, area.global_position)
+	if !is_pushed:
+		take_damage(1, area.global_position)
 
 func _on_hitbox_body_entered(body):
-	take_damage(1, body.global_position)
+	if !is_pushed:
+		take_damage(1, body.global_position)
 
 func start_afterimage():
 	if afterimage_count == 0:

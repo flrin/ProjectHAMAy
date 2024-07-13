@@ -40,7 +40,7 @@ func _physics_process(delta):
 	#else:
 	#	velocity.x = move_toward(velocity.x, 0, SPEED)
 
-	if is_chasing == true:
+	if is_chasing == true and is_instance_valid(chasing_player):
 		if direction != -sign(position.x - chasing_player.position.x) and follow_timer.is_stopped():
 			follow_timer.start(ENEMY_RECEPTIVENESS)
 
