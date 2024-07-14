@@ -12,6 +12,7 @@
 [node name="TileMap" parent="." instance=ExtResource("3_t750v")]
 
 [node name="Background1" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(110, -278)
 scale = Vector2(1.36, 1.36)
 texture = ExtResource("1_2qbad")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=3 uid="uid://be7r62bppl55r"]
+[gd_scene load_steps=31 format=3 uid="uid://be7r62bppl55r"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_kmc2f"]
 [ext_resource type="Texture2D" uid="uid://bj6phx3urxxpm" path="res://Assets/Characters/PlayerCharacter.png" id="2_b4rcf"]
+[ext_resource type="Script" path="res://Scripts/Camera2D.gd" id="2_r2fii"]
 [ext_resource type="Texture2D" uid="uid://rkfov3yvtsjh" path="res://Assets/Characters/WalkingAnimation/CharacterWalk1.png" id="3_edqhb"]
 [ext_resource type="Texture2D" uid="uid://bjoaayle8h1rk" path="res://Assets/Characters/PlayerAttackAnimation/CharacterAttackAnim1.png" id="3_msc7r"]
 [ext_resource type="Texture2D" uid="uid://bi1si8cvqdbvb" path="res://Assets/Characters/PlayerAttackAnimation/CharacterAttackAnim2.png" id="4_1b5qb"]
@@ -131,6 +132,7 @@ shape = SubResource("CapsuleShape2D_frnhi")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -92)
 zoom = Vector2(3, 3)
+script = ExtResource("2_r2fii")
 
 [node name="HitboxArea" type="Area2D" parent="."]
 position = Vector2(0, -1)
