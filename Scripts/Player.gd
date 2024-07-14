@@ -42,11 +42,13 @@ var grab_ray_cast
 var grab_check_ray_cast
 var is_grabbing=false
 
+var current_animation = "walk"
+
 func _ready():
 	atttack_slow_down = 1
 	camera = $Camera2D
 	animation = $AnimatedSprite2D #animation
-	animation.animation = "walk"
+	animation.animation = current_animation
 	collision_shape = $CollisionShape2D
 	hitbox_area = $HitboxArea
 	ui = get_node("../UI/UI")
@@ -74,6 +76,7 @@ func _physics_process(delta):
 	#Handle attack
 	if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click"):
 		animation.set_animation("attack")
+		current_animation = "attack"
 		animation.play()
 		atttack_slow_down = DEFAULT_SLOW_DOWN
 	
@@ -107,6 +110,9 @@ func _physics_process(delta):
 				if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
+					animation.animation = "jump"
+					current_animation = "jump"
+					animation.play()
 			else:
 				jump_counter = 1
 		else:
@@ -114,6 +120,9 @@ func _physics_process(delta):
 				if jump_counter > 1:
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
+					animation.animation = "jump"
+					current_animation = "jump"
+					animation.play()
 	
 	#if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
 		#velocity.y = JUMP_VELOCITY
@@ -155,11 +164,10 @@ func _physics_process(delta):
 		scale.x *= -1
 		fake_direction = direction
 		
-	if animation.get_animation() != "attack":
+	if animation.get_animation() == "walk":
 		if direction == 0: #trebe animatie de idle cand cacam
 			animation.stop()
 		else :
-			animation.animation = "walk"
 			animation.play()
 		
 	if is_pushed == false:
@@ -225,7 +233,7 @@ func start_afterimage():
 	if afterimage_count == 0:
 		afterimage_count = AFTERIMAGE_NUMBER
 	var afterimage_node = afterimage_scene.instantiate()
-	afterimage_node.get_ready(player_model, position, fake_direction)
+	afterimage_node.get_ready(get_current_frame(), position, fake_direction)
 	get_node("..").add_child(afterimage_node)
 	
 	afterimage_count -= 1
@@ -234,7 +242,7 @@ func start_afterimage():
 func _on_afterimage_timer_timeout():
 	if afterimage_count > 0:
 		var afterimage_node = afterimage_scene.instantiate()
-		afterimage_node.get_ready(player_model, position, fake_direction)
+		afterimage_node.get_ready(get_current_frame(), position, fake_direction)
 		get_node("..").add_child(afterimage_node)
 		
 		afterimage_count -= 1
@@ -279,8 +287,9 @@ func text_ended():
 	is_reading = false
 
 func _on_animated_sprite_2d_animation_finished():
-	if animation.animation == "attack":
+	if animation.animation == "attack" or animation.animation == "jump":
 		animation.animation = "walk"
+		current_animation = "walk"
 		animation.play()
 
 func _check_ledge_grab():
@@ -294,3 +303,8 @@ func _check_ledge_grab():
 		#
 		#animatie de ledge climb play
 		#
+
+func get_current_frame():
+	var frame_index = animation.get_frame()
+	var animation_sprite_frames = animation.get_sprite_frames()
+	return animation_sprite_frames.get_frame_texture(current_animation, frame_index)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://be7r62bppl55r"]
+[gd_scene load_steps=37 format=3 uid="uid://be7r62bppl55r"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_kmc2f"]
 [ext_resource type="Texture2D" uid="uid://bj6phx3urxxpm" path="res://Assets/Characters/PlayerCharacter.png" id="2_b4rcf"]
@@ -27,6 +27,12 @@
 [ext_resource type="Texture2D" uid="uid://dckm3i8gt8bsv" path="res://Assets/Characters/PlayerAttackAnimation/CharacterAttackAnim11.png" id="13_w2fs2"]
 [ext_resource type="Texture2D" uid="uid://mq2lydtawrif" path="res://Assets/Characters/WalkingAnimation/CharacterWalk12.png" id="14_ehat3"]
 [ext_resource type="Texture2D" uid="uid://c3g3yoamjaece" path="res://Assets/Characters/PlayerAttackAnimation/CharacterAttackAnim12.png" id="14_gn2p2"]
+[ext_resource type="Texture2D" uid="uid://vxwh8qr5ssji" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation1.png" id="16_f0joh"]
+[ext_resource type="Texture2D" uid="uid://bbvvd63akcu7x" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation2.png" id="17_fqjbs"]
+[ext_resource type="Texture2D" uid="uid://c7w3eh7hvmg8i" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation3.png" id="18_mi7j8"]
+[ext_resource type="Texture2D" uid="uid://brcec0i4jowre" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation4.png" id="19_5dels"]
+[ext_resource type="Texture2D" uid="uid://cpicu6imrmk64" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation5.png" id="20_2mp1o"]
+[ext_resource type="Texture2D" uid="uid://cqyqybjm7wq5h" path="res://Assets/Characters/PlayerJumpAnimation/JumpAnimation6.png" id="21_0b17f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_frnhi"]
 radius = 7.0
@@ -78,6 +84,29 @@ animations = [{
 "loop": false,
 "name": &"attack",
 "speed": 14.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_f0joh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_fqjbs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_mi7j8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_5dels")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_2mp1o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_0b17f")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -156,7 +185,9 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-2, -32)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"attack"
+animation = &"jump"
+frame = 2
+frame_progress = 0.773365
 
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true

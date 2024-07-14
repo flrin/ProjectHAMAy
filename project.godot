@@ -15,12 +15,6 @@ run/main_scene="res://Scenes/Main.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
-[display]
-
-window/size/viewport_width=960
-window/size/viewport_height=540
-window/size/mode=2
-
 [editor]
 
 version_control/plugin_name="GitPlugin"
