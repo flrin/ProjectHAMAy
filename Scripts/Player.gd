@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 const SPEED = 200.0
 const JUMP_VELOCITY = -350.0
 const DODGE_ACCELERATION = 5
@@ -13,6 +12,7 @@ signal damage_taken(ammount)
 signal interacted_with_npc(npc)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
+
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var dodge_accel = 1
 var collision_shape
@@ -38,6 +38,10 @@ var hurtbox_area_scene = load("res://Scenes/HurtBox1.tscn")
 var hurtbox_node
 var atttack_slow_down
 
+var grab_ray_cast
+var grab_check_ray_cast
+var is_grabbing=false
+
 func _ready():
 	atttack_slow_down = 1
 	camera = $Camera2D
@@ -52,7 +56,8 @@ func _ready():
 	tilemap=get_node("../TileMap")
 	walking_animation_frames = animation.get_sprite_frames()
 	pushback_timer = $PushbackTimer
-	
+	grab_check_ray_cast = $GrabCheckRayCast
+	grab_ray_cast = $GrabRayCast
 	interacted_with_npc.connect(ui.interacted_with_npc)
 	
 	
@@ -110,10 +115,19 @@ func _physics_process(delta):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 	
-	#if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
-		#velocity.y = JUMP_VELOCITY
-		#jump_counter -= 1
-
+	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
+		velocity.y = JUMP_VELOCITY
+		jump_counter -= 1
+		
+	#Handle ledge grab
+	_check_ledge_grab()
+	if !is_pushed and !is_reading and !is_attacking:
+		if !Input.is_action_pressed("ui_down"):
+			if Input.is_action_just_pressed("ui_accept") and (is_on_floor() || is_grabbing):
+				is_grabbing=false
+				velocity.y = JUMP_VELOCITY
+			if is_grabbing: return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
+				#O shit WHAT BUGGG BUGGG BUGGGG PE SCURT AR TREBUII SA NU POATE FACE NIMICA DARRRR fall_down_ledge() INTERVINE DIN CEVA MOTIV SI DACA APESI S CAZI LMAO EU NU REZOLV ASTA ACUMA
 	#Handle dodge
 	if dodge_accel == 1:
 		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and animation.animation != "attack" and !is_reading:
@@ -218,7 +232,6 @@ func start_afterimage():
 	afterimage_count -= 1
 	afterimage_timer.start(AFTERIMAGE_FREQ)
 
-
 func _on_afterimage_timer_timeout():
 	if afterimage_count > 0:
 		var afterimage_node = afterimage_scene.instantiate()
@@ -244,7 +257,6 @@ func fall_down_ledge():
 func set_color_default():
 	modulate = Color(1,1,1,1)
 
-
 func _on_pushback_timer_timeout():
 	if is_pushed == true:
 		is_pushed = false
@@ -267,8 +279,19 @@ func look_for_group(group):
 func text_ended():
 	is_reading = false
 
-
 func _on_animated_sprite_2d_animation_finished():
 	if animation.animation == "attack":
 		animation.animation = "walk"
 		animation.play()
+
+func _check_ledge_grab():
+	var is_falling = velocity.y >= 0
+	var check_hand = not grab_ray_cast.is_colliding()
+	var check_grabbing_height = grab_check_ray_cast.is_colliding()
+	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only()
+	
+	if can_grab:
+		is_grabbing = true
+		#
+		#animatie de ledge climb play
+		#

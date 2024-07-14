@@ -159,6 +159,14 @@ animation = &"attack"
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="GrabRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, -46)
+target_position = Vector2(40, 0)
+
+[node name="GrabCheckRayCast" type="RayCast2D" parent="."]
+position = Vector2(0, -42)
+target_position = Vector2(40, 0)
+
 [connection signal="area_entered" from="HitboxArea" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_body_entered"]
 [connection signal="timeout" from="AfterimageTimer" to="." method="_on_afterimage_timer_timeout"]
