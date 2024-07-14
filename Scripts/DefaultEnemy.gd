@@ -90,7 +90,6 @@ func _on_follow_timer_timeout():
 
 
 func take_damage(ammount, hit_position):
-	print("ouch")
 	#Flash the character white
 	modulate = Color(2, 2, 2, 0.8)
 	
@@ -103,7 +102,6 @@ func take_damage(ammount, hit_position):
 	
 	#Substract health
 	health -= ammount
-	print(health)
 	if health <= 0:
 		die()
 

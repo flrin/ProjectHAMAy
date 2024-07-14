@@ -124,6 +124,15 @@ func _physics_process(delta):
 					current_animation = "jump"
 					animation.play()
 	
+	if current_animation == "jump":
+		hitbox_area.get_node("CollisionShape2D").shape.height = 30
+		if is_on_floor() and !animation.is_playing():
+			current_animation = "land"
+			animation.animation = current_animation
+			animation.play()
+	else:
+		hitbox_area.get_node("CollisionShape2D").shape.height = 48
+	
 	#if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
 		#velocity.y = JUMP_VELOCITY
 		#jump_counter -= 1
@@ -287,7 +296,7 @@ func text_ended():
 	is_reading = false
 
 func _on_animated_sprite_2d_animation_finished():
-	if animation.animation == "attack" or animation.animation == "jump":
+	if animation.animation == "attack" or animation.animation == "land":
 		animation.animation = "walk"
 		current_animation = "walk"
 		animation.play()

@@ -94,7 +94,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("18_mi7j8")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 10.0
 }, {
+"frames": [{
 "duration": 1.0,
 "texture": ExtResource("19_5dels")
 }, {
@@ -105,7 +110,7 @@ animations = [{
 "texture": ExtResource("21_0b17f")
 }],
 "loop": false,
-"name": &"jump",
+"name": &"land",
 "speed": 10.0
 }, {
 "frames": [{
@@ -185,9 +190,7 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-2, -32)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"jump"
-frame = 2
-frame_progress = 0.773365
+animation = &"land"
 
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true
