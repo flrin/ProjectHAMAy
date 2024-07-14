@@ -115,9 +115,9 @@ func _physics_process(delta):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 	
-	if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
-		velocity.y = JUMP_VELOCITY
-		jump_counter -= 1
+	#if Input.is_action_just_pressed("ui_accept") and ((is_on_floor() or jump_counter > 0) and !Input.is_action_pressed("ui_down")) and is_pushed == false:
+		#velocity.y = JUMP_VELOCITY
+		#jump_counter -= 1
 		
 	#Handle ledge grab
 	_check_ledge_grab()
@@ -287,7 +287,7 @@ func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
 	var check_hand = not grab_ray_cast.is_colliding()
 	var check_grabbing_height = grab_check_ray_cast.is_colliding()
-	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only()
+	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only() #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
 	
 	if can_grab:
 		is_grabbing = true
