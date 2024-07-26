@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6vnbh6ny3sin"
-path="res://.godot/imported/MergedTiles1.png-d6bb19aadb4b94b410ca6cf65be0034b.ctex"
+uid="uid://bjsphk85oa8aa"
+path="res://.godot/imported/EmptyDirt.png-662b149f9296a49c1f46aa3ba01d1322.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tiles/MergedTiles1.png"
-dest_files=["res://.godot/imported/MergedTiles1.png-d6bb19aadb4b94b410ca6cf65be0034b.ctex"]
+source_file="res://Assets/Tiles/Version1Tiles/EmptyDirt.png"
+dest_files=["res://.godot/imported/EmptyDirt.png-662b149f9296a49c1f46aa3ba01d1322.ctex"]
 
 [params]
 

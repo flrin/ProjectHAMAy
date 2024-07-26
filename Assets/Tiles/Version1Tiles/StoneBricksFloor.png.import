@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dy557iq7yrghh"
-path="res://.godot/imported/BasicStone.png-8f34d463e6b1cfe456533000aaa765a2.ctex"
+uid="uid://cve6ngp8lgy7x"
+path="res://.godot/imported/StoneBricksFloor.png-ef37e72490f908eef362ee633cadb1b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tiles/BasicStone.png"
-dest_files=["res://.godot/imported/BasicStone.png-8f34d463e6b1cfe456533000aaa765a2.ctex"]
+source_file="res://Assets/Tiles/Version1Tiles/StoneBricksFloor.png"
+dest_files=["res://.godot/imported/StoneBricksFloor.png-ef37e72490f908eef362ee633cadb1b2.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b44v53e6s1bdx"
-path="res://.godot/imported/BasicDirt.png-1d41cdd7efa50b9b92c613c2c5b23643.ctex"
+uid="uid://dy557iq7yrghh"
+path="res://.godot/imported/BasicStone.png-d7d616d6d2b74653db76f0ea212d7253.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tiles/BasicDirt.png"
-dest_files=["res://.godot/imported/BasicDirt.png-1d41cdd7efa50b9b92c613c2c5b23643.ctex"]
+source_file="res://Assets/Tiles/Version1Tiles/BasicStone.png"
+dest_files=["res://.godot/imported/BasicStone.png-d7d616d6d2b74653db76f0ea212d7253.ctex"]
 
 [params]
 

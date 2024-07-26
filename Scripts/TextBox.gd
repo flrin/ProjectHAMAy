@@ -6,6 +6,7 @@ var npc_name
 var page_number
 
 var cat_text = "res://Assets/Texts/TestText.txt"
+var candle_totem_text = "res://Assets/Texts/CandleTotemText.txt"
 var file
 
 signal text_ended()
@@ -19,7 +20,8 @@ func get_ready(temp_npc_name, temp_page_number):
 	match npc_name:
 		"cat":
 			file = FileAccess.open(cat_text, FileAccess.READ)
-			
+		"candle_totem":
+			file = FileAccess.open(candle_totem_text, FileAccess.READ)
 	
 	if page_number != -1:
 		skip_to_page(page_number)

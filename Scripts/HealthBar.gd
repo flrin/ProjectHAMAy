@@ -6,8 +6,8 @@ var lit_candels_res = [load("res://Assets/Other/Health/image1.png"), load("res:/
 var unlit_candels_res = [load("res://Assets/Other/Health/image11.png"), load("res://Assets/Other/Health/image22.png"), load("res://Assets/Other/Health/image33.png"), load("res://Assets/Other/Health/image44.png"), load("res://Assets/Other/Health/image55.png"), load("res://Assets/Other/Health/image66.png"), load("res://Assets/Other/Health/image77.png"), load("res://Assets/Other/Health/image88.png")]
 
 var candles = []
-var max_candles = 8
-var number_of_lit_candels = 8
+var max_candles = 4
+var number_of_lit_candels = 4
 
 var full_ball
 var broken_ball
@@ -45,6 +45,9 @@ func change_candles(ammount):
 		full_ball.visible = false
 		broken_ball.visible = true
 
+func change_max_candles(num):
+	set_max_candle_number(num + max_candles)
+
 func set_max_candle_number(num):
 	for i in range(0,num):
 		candles[i].visible = true
@@ -53,3 +56,5 @@ func set_max_candle_number(num):
 	
 	number_of_lit_candels = num
 	max_candles = num
+
+

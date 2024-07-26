@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://cd40s071p35kp" path="res://Assets/Tiles/PalaceTiles/PalaceTilesMerged.png" id="1_dj0gg"]
 [ext_resource type="Texture2D" uid="uid://dxny5vauf44p" path="res://Assets/Tiles/NightBricks/NightBricks.png" id="2_bv02c"]
-[ext_resource type="Texture2D" uid="uid://dloni5whusgxs" path="res://Assets/Tiles/Plat.png" id="2_erhf2"]
-[ext_resource type="Texture2D" uid="uid://6vnbh6ny3sin" path="res://Assets/Tiles/MergedTiles1.png" id="3_f3opu"]
+[ext_resource type="Texture2D" uid="uid://dloni5whusgxs" path="res://Assets/Tiles/Version1Tiles/Plat.png" id="2_erhf2"]
+[ext_resource type="Texture2D" uid="uid://6vnbh6ny3sin" path="res://Assets/Tiles/Version1Tiles/MergedTiles1.png" id="3_f3opu"]
 [ext_resource type="Texture2D" uid="uid://b7cwvvrf12iqh" path="res://Assets/Tiles/RockySand/RockySand3.png" id="3_ibt7q"]
 [ext_resource type="Texture2D" uid="uid://dfd11i6xiuhoh" path="res://Assets/Tiles/Background/Background1.png" id="3_qy7r4"]
 [ext_resource type="Texture2D" uid="uid://cnu2i7f6casrb" path="res://Assets/Characters/pisica3.png" id="4_70y6d"]

@@ -18,7 +18,7 @@ var dodge_accel = 1
 var collision_shape
 var hitbox_area
 var is_pushed = false
-var heart_ammount = 8
+var heart_ammount
 var player_model = load("res://Assets/Characters/PlayerCharacter.png")
 var afterimage_scene = load("res://Scenes/AfterImage.tscn")
 var afterimage_timer
@@ -61,7 +61,7 @@ func _ready():
 	grab_check_ray_cast = $GrabCheckRayCast
 	grab_ray_cast = $GrabRayCast
 	interacted_with_npc.connect(ui.interacted_with_npc)
-	
+	heart_ammount = 4
 	
 func _physics_process(delta):
 	#Process collisions
@@ -102,6 +102,13 @@ func _physics_process(delta):
 		if temp_npc:
 			emit_signal("interacted_with_npc", temp_npc)
 			is_reading = true
+			match temp_npc.get_npc_name():
+				"cat":
+					pass
+				"candle_totem":
+					if temp_npc.has_been_used == false:
+						ui.change_max_health(1)
+						heart_ammount += 1
 
 	# Handle jump.
 	if !is_pushed and !is_reading and !is_attacking:
@@ -228,8 +235,11 @@ func game_over():
 	queue_free()
 
 func _on_hitbox_area_entered(area):
-	if !is_pushed:
-		take_damage(1, area.global_position)
+	if area.get_parent().is_in_group("npc"):
+		pass
+	else:
+		if !is_pushed:
+			take_damage(1, area.global_position)
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("npc"):
