@@ -1,8 +1,9 @@
-[gd_resource type="TileSet" load_steps=21 format=3 uid="uid://ofc7o18ang4o"]
+[gd_resource type="TileSet" load_steps=23 format=3 uid="uid://ofc7o18ang4o"]
 
 [ext_resource type="Texture2D" uid="uid://cd40s071p35kp" path="res://Assets/Tiles/PalaceTiles/PalaceTilesMerged.png" id="1_dj0gg"]
 [ext_resource type="Texture2D" uid="uid://dxny5vauf44p" path="res://Assets/Tiles/NightBricks/NightBricks.png" id="2_bv02c"]
 [ext_resource type="Texture2D" uid="uid://dloni5whusgxs" path="res://Assets/Tiles/Version1Tiles/Plat.png" id="2_erhf2"]
+[ext_resource type="Texture2D" uid="uid://s5yduwwuktc0" path="res://Assets/Tiles/StoneLedge/StoneLedge.png" id="3_5oe0f"]
 [ext_resource type="Texture2D" uid="uid://6vnbh6ny3sin" path="res://Assets/Tiles/Version1Tiles/MergedTiles1.png" id="3_f3opu"]
 [ext_resource type="Texture2D" uid="uid://b7cwvvrf12iqh" path="res://Assets/Tiles/RockySand/RockySand3.png" id="3_ibt7q"]
 [ext_resource type="Texture2D" uid="uid://dfd11i6xiuhoh" path="res://Assets/Tiles/Background/Background1.png" id="3_qy7r4"]
@@ -120,6 +121,42 @@ texture_region_size = Vector2i(32, 10)
 0:5/0 = 0
 0:5/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:5/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p76rt"]
+texture = ExtResource("3_5oe0f")
+texture_region_size = Vector2i(32, 32)
+0:0/next_alternative_id = 2
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 4
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/terrains_peering_bit/right_side = 4
+0:0/0/terrains_peering_bit/left_side = 4
+1:0/next_alternative_id = 2
+1:0/0 = 0
+1:0/0/terrain_set = 0
+1:0/0/terrain = 4
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0/terrains_peering_bit/right_side = 4
+1:0/1 = 1
+1:0/1/flip_h = true
+1:0/1/terrain_set = 0
+1:0/1/terrain = 4
+1:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/1/physics_layer_0/angular_velocity = 0.0
+1:0/1/terrains_peering_bit/left_side = 4
+2:0/next_alternative_id = 2
+2:0/0 = 0
+2:0/0/terrain_set = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/1 = 1
+2:0/1/flip_h = true
+2:0/1/terrain_set = 0
+2:0/1/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/1/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ng2m3"]
 texture = ExtResource("2_bv02c")
@@ -743,14 +780,16 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 0
 physics_layer_0/physics_material = SubResource("PhysicsMaterial_veum1")
 terrain_set_0/mode = 0
-terrain_set_0/terrain_0/name = "RockySand 0"
+terrain_set_0/terrain_0/name = "RockySand"
 terrain_set_0/terrain_0/color = Color(1, 0.345098, 0.25098, 1)
-terrain_set_0/terrain_1/name = "NightRockySand 1"
+terrain_set_0/terrain_1/name = "NightRockySand"
 terrain_set_0/terrain_1/color = Color(0.5, 0.4375, 0.25, 1)
-terrain_set_0/terrain_2/name = "NightBrick 2"
+terrain_set_0/terrain_2/name = "NightBrick"
 terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 terrain_set_0/terrain_3/name = "PalaceColumns"
 terrain_set_0/terrain_3/color = Color(0.375, 0.5, 0.25, 1)
+terrain_set_0/terrain_4/name = "StoneLedge"
+terrain_set_0/terrain_4/color = Color(0.28125, 0.5, 0.25, 1)
 custom_data_layer_0/name = "type"
 custom_data_layer_0/type = 4
 sources/1 = SubResource("TileSetAtlasSource_1vdlh")
@@ -761,7 +800,8 @@ sources/8 = SubResource("TileSetAtlasSource_1dssr")
 sources/13 = SubResource("TileSetAtlasSource_ng2m3")
 sources/16 = SubResource("TileSetAtlasSource_x7tfb")
 sources/0 = SubResource("TileSetAtlasSource_sghko")
-tile_proxies/coords_level = [[0, Vector2i(0, 0)], [8, Vector2i(0, 0)], [3, Vector2i(0, 0)], [4, Vector2i(0, 0)], [4, Vector2i(0, 0)], [8, Vector2i(1, 0)], [4, Vector2i(1, 0)], [3, Vector2i(2, 0)], [4, Vector2i(2, 0)], [3, Vector2i(3, 0)], [5, Vector2i(0, 0)], [9, Vector2i(2, 0)], [6, Vector2i(0, 0)], [8, Vector2i(2, 0)], [7, Vector2i(0, 0)], [8, Vector2i(3, 0)], [8, Vector2i(0, 0)], [9, Vector2i(5, 0)], [9, Vector2i(0, 0)], [13, Vector2i(0, 0)], [10, Vector2i(0, 0)], [13, Vector2i(1, 0)], [11, Vector2i(0, 0)], [13, Vector2i(2, 0)], [12, Vector2i(0, 0)], [13, Vector2i(3, 0)], [14, Vector2i(0, 0)], [16, Vector2i(0, 0)], [15, Vector2i(0, 0)], [16, Vector2i(1, 0)], [17, Vector2i(0, 0)], [4, Vector2i(1, 0)], [17, Vector2i(1, 0)], [4, Vector2i(2, 0)], [17, Vector2i(2, 0)], [4, Vector2i(3, 0)]]
+sources/12 = SubResource("TileSetAtlasSource_p76rt")
+tile_proxies/coords_level = [[0, Vector2i(0, 0)], [8, Vector2i(0, 0)], [3, Vector2i(0, 0)], [4, Vector2i(0, 0)], [4, Vector2i(0, 0)], [8, Vector2i(1, 0)], [4, Vector2i(1, 0)], [3, Vector2i(2, 0)], [4, Vector2i(2, 0)], [3, Vector2i(3, 0)], [5, Vector2i(0, 0)], [9, Vector2i(2, 0)], [6, Vector2i(0, 0)], [8, Vector2i(2, 0)], [7, Vector2i(0, 0)], [8, Vector2i(3, 0)], [8, Vector2i(0, 0)], [9, Vector2i(5, 0)], [9, Vector2i(0, 0)], [12, Vector2i(0, 0)], [10, Vector2i(0, 0)], [12, Vector2i(1, 0)], [11, Vector2i(0, 0)], [12, Vector2i(2, 0)], [12, Vector2i(0, 0)], [13, Vector2i(3, 0)], [14, Vector2i(0, 0)], [16, Vector2i(0, 0)], [15, Vector2i(0, 0)], [16, Vector2i(1, 0)], [17, Vector2i(0, 0)], [4, Vector2i(1, 0)], [17, Vector2i(1, 0)], [4, Vector2i(2, 0)], [17, Vector2i(2, 0)], [4, Vector2i(3, 0)]]
 pattern_0 = SubResource("TileMapPattern_rxi8y")
 pattern_1 = SubResource("TileMapPattern_x0b4e")
 pattern_2 = SubResource("TileMapPattern_14swk")
