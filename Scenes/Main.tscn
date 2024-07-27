@@ -14,7 +14,7 @@
 
 [node name="Background1" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(342, -62)
+position = Vector2(-239, -722)
 scale = Vector2(1.36, 1.36)
 texture = ExtResource("1_2qbad")
 
@@ -22,7 +22,7 @@ texture = ExtResource("1_2qbad")
 position = Vector2(146, -160)
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_trfb5")]
-position = Vector2(343, 31)
+position = Vector2(-238, -629)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 position = Vector2(-1, -93)

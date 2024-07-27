@@ -151,7 +151,6 @@ func _physics_process(delta):
 				is_grabbing=false
 				velocity.y = JUMP_VELOCITY
 			if is_grabbing: return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
-				#O shit WHAT BUGGG BUGGG BUGGGG PE SCURT AR TREBUII SA NU POATE FACE NIMICA DARRRR fall_down_ledge() INTERVINE DIN CEVA MOTIV SI DACA APESI S CAZI LMAO EU NU REZOLV ASTA ACUMA
 	#Handle dodge
 	if dodge_accel == 1:
 		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and animation.animation != "attack" and !is_reading:
@@ -271,7 +270,8 @@ func _on_afterimage_timer_timeout():
 
 func drop_down_ledge():
 	position.y += 3
-
+	grab_check_ray_cast.enabled=false
+	
 func fall_down_ledge():
 	var tile_coords=tilemap.local_to_map(tilemap.to_local(global_position))
 	var data = tilemap.get_cell_tile_data(1,tile_coords) #1 e layer-u daca vrei sa iei datele de la alte layer numa schimba aia (daca vrei sa detectezi daca stai pe pamant de exmplu sau pe piatra)
@@ -315,14 +315,44 @@ func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
 	var check_hand = not grab_ray_cast.is_colliding()
 	var check_grabbing_height = grab_check_ray_cast.is_colliding()
-	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only() #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
+	var tile = grab_check_ray_cast.get_collision_point()
+	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && (_check_ledge_one_way_grab(tile) || is_on_wall_only()) #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
 	
 	if can_grab:
 		is_grabbing = true
 		#
 		#animatie de ledge climb play
 		#
-
+		
+	if is_on_floor():
+		grab_check_ray_cast.enabled=true
+	
+func _check_ledge_one_way_grab(tile):
+	var tile_coords=tilemap.local_to_map(tilemap.to_local(tile))
+	#var player_coords=tilemap.local_to_map(tilemap.to_local(global_position))
+	var ok=true
+	if tile.x < global_position.x:
+		tile_coords.x=tile_coords.x-1
+	#print(player_coords)
+	#if player_coords.y > 0:
+		#player_coords.y = player_coords.y - 3
+	#else :
+		#player_coords.y = player_coords.y + 3
+	#print(player_coords)
+	var data = tilemap.get_cell_tile_data(1,tile_coords)
+	#var data_player = tilemap.get_cell_tile_data(1,player_coords)
+	if data:
+		var type = data.get_custom_data("Margine")
+		#if data_player:
+			#var type_player = data_player.get_custom_data("type")
+			#print(type_player)
+			#if type == true && type_player != "ledge_1":
+				#grab_check_ray_cast.enabled=false
+				#print(1)
+				#return true
+		if type == true && ok:
+			grab_check_ray_cast.enabled=false
+			return true
 func get_current_frame():
 	var frame_index = animation.get_frame()
 	var animation_sprite_frames = animation.get_sprite_frames()
