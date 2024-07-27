@@ -14,7 +14,7 @@
 
 [node name="Background1" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(110, -278)
+position = Vector2(342, -62)
 scale = Vector2(1.36, 1.36)
 texture = ExtResource("1_2qbad")
 
@@ -22,7 +22,7 @@ texture = ExtResource("1_2qbad")
 position = Vector2(146, -160)
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_trfb5")]
-position = Vector2(111, -185)
+position = Vector2(343, 31)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 position = Vector2(-1, -93)
@@ -40,3 +40,9 @@ position = Vector2(652, 214)
 
 [node name="CandleTotem" parent="." instance=ExtResource("7_iwy36")]
 position = Vector2(-144, -62)
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+position = Vector2(0, -1411)
+rotation = -0.705587
+color = Color(1, 1, 1, 0.219608)
+shadow_enabled = true
