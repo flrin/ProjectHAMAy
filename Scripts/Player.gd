@@ -62,6 +62,7 @@ func _ready():
 	grab_ray_cast = $GrabRayCast
 	interacted_with_npc.connect(ui.interacted_with_npc)
 	heart_ammount = 4
+	damage_taken.connect(camera.player_hit)
 	
 func _physics_process(delta):
 	#Process collisions

@@ -152,7 +152,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 10.0
+"speed": 12.0
 }]
 
 [node name="Player" type="CharacterBody2D"]
@@ -190,18 +190,18 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-2, -32)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"land"
+animation = &"walk"
 
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="GrabRayCast" type="RayCast2D" parent="."]
-position = Vector2(0, -46)
-target_position = Vector2(32, 0)
+position = Vector2(0, -44)
+target_position = Vector2(14, 0)
 
 [node name="GrabCheckRayCast" type="RayCast2D" parent="."]
-position = Vector2(0, -42)
-target_position = Vector2(32, 0)
+position = Vector2(0, -40)
+target_position = Vector2(14, 0)
 
 [connection signal="area_entered" from="HitboxArea" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_body_entered"]
