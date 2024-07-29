@@ -74,11 +74,12 @@ func _physics_process(delta):
 			velocity.y += gravity * delta * 2
 	
 	#Handle attack
-	if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click"):
-		animation.set_animation("attack")
-		current_animation = "attack"
-		animation.play()
-		atttack_slow_down = DEFAULT_SLOW_DOWN
+	if !is_grabbing:
+		if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click"):
+			animation.set_animation("attack")
+			current_animation = "attack"
+			animation.play()
+			atttack_slow_down = DEFAULT_SLOW_DOWN
 	
 	if animation.get_animation() == "attack":
 		if animation.frame == 5 and hurtbox_node == null:
@@ -150,7 +151,7 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("ui_accept") and (is_on_floor() || is_grabbing) && !Input.is_action_pressed("ui_down"):
 				is_grabbing=false
 				velocity.y = JUMP_VELOCITY
-			if is_grabbing: return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
+			if is_grabbing : return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
 	#Handle dodge
 	if dodge_accel == 1:
 		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and animation.animation != "attack" and !is_reading:
