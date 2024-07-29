@@ -71,18 +71,26 @@ func _physics_process(delta):
 	if not is_on_floor():
 		if is_pushed == false:
 			velocity.y += gravity * delta
+			print(velocity)
+			if velocity.y > 0 and animation.get_animation() != "jump" and velocity.y > 100:
+				play_animation("jump")
 		else:
 			velocity.y += gravity * delta * 2
+
 	
 	#Handle attack
 	if !is_grabbing:
-		if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click"):
-			animation.set_animation("attack")
-			current_animation = "attack"
-			animation.play()
+		if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click") and animation.get_animation() != "jump":
+			play_animation("attack")
 			atttack_slow_down = DEFAULT_SLOW_DOWN
 	
 	if animation.get_animation() == "attack":
+		if velocity.y > 50 and is_instance_valid(hurtbox_node):
+			hurtbox_node.queue_free()
+			hurtbox_node = null
+			is_attacking = false
+			atttack_slow_down = 1
+		
 		if animation.frame == 5 and hurtbox_node == null:
 			is_attacking = true
 			hurtbox_node = hurtbox_area_scene.instantiate()
@@ -119,9 +127,7 @@ func _physics_process(delta):
 				if jump_counter > 0 and !Input.is_action_pressed("ui_down"):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
-					animation.animation = "jump"
-					current_animation = "jump"
-					animation.play()
+					play_animation("jump")
 			else:
 				jump_counter = 1
 		else:
@@ -129,16 +135,12 @@ func _physics_process(delta):
 				if jump_counter > 1:
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
-					animation.animation = "jump"
-					current_animation = "jump"
-					animation.play()
+					play_animation("jump")
 	
 	if current_animation == "jump":
 		hitbox_area.get_node("CollisionShape2D").shape.height = 30
 		if is_on_floor() and !animation.is_playing():
-			current_animation = "land"
-			animation.animation = current_animation
-			animation.play()
+			play_animation("land")
 	else:
 		hitbox_area.get_node("CollisionShape2D").shape.height = 48
 	
@@ -309,9 +311,7 @@ func text_ended():
 
 func _on_animated_sprite_2d_animation_finished():
 	if animation.animation == "attack" or animation.animation == "land":
-		animation.animation = "walk"
-		current_animation = "walk"
-		animation.play()
+		play_animation("walk")
 
 func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
@@ -350,3 +350,8 @@ func get_current_frame():
 	var frame_index = animation.get_frame()
 	var animation_sprite_frames = animation.get_sprite_frames()
 	return animation_sprite_frames.get_frame_texture(current_animation, frame_index)
+
+func play_animation(new_anim):
+	current_animation = new_anim
+	animation.animation = current_animation
+	animation.play()
