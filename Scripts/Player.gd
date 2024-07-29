@@ -333,25 +333,15 @@ func _check_ledge_one_way_grab(tile):
 	var player_coords=tilemap.local_to_map(tilemap.to_local(global_position))
 	if tile.x < global_position.x:
 		tile_coords.x=tile_coords.x-1
-	print(player_coords)
 	if player_coords.y > 0:
 		player_coords.y = player_coords.y + 1
 	else :
 		player_coords.y = player_coords.y - 1
-	print(player_coords)
 	var data = tilemap.get_cell_tile_data(1,tile_coords)
 	var data_player = tilemap.get_cell_tile_data(1,player_coords)
 	if data:
 		var type = data.get_custom_data("Margine")
-		if data_player:
-			var type_player = data_player.get_custom_data("type")
-			print(type_player)
-			print(type)
-			if type == true && type_player != "ledge_1":
-				grab_check_ray_cast.enabled=false
-				print(1)
-				return true
-		else:
+		if !data_player:
 			if type == true :
 				grab_check_ray_cast.enabled=false
 				return true
