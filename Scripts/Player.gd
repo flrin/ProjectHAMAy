@@ -330,30 +330,31 @@ func _check_ledge_grab():
 	
 func _check_ledge_one_way_grab(tile):
 	var tile_coords=tilemap.local_to_map(tilemap.to_local(tile))
-	#var player_coords=tilemap.local_to_map(tilemap.to_local(global_position))
-	var ok=true
+	var player_coords=tilemap.local_to_map(tilemap.to_local(global_position))
 	if tile.x < global_position.x:
 		tile_coords.x=tile_coords.x-1
-	#print(player_coords)
-	#if player_coords.y > 0:
-		#player_coords.y = player_coords.y - 3
-	#else :
-		#player_coords.y = player_coords.y + 3
-	#print(player_coords)
+	print(player_coords)
+	if player_coords.y > 0:
+		player_coords.y = player_coords.y + 1
+	else :
+		player_coords.y = player_coords.y - 1
+	print(player_coords)
 	var data = tilemap.get_cell_tile_data(1,tile_coords)
-	#var data_player = tilemap.get_cell_tile_data(1,player_coords)
+	var data_player = tilemap.get_cell_tile_data(1,player_coords)
 	if data:
 		var type = data.get_custom_data("Margine")
-		#if data_player:
-			#var type_player = data_player.get_custom_data("type")
-			#print(type_player)
-			#if type == true && type_player != "ledge_1":
-				#grab_check_ray_cast.enabled=false
-				#print(1)
-				#return true
-		if type == true && ok:
-			grab_check_ray_cast.enabled=false
-			return true
+		if data_player:
+			var type_player = data_player.get_custom_data("type")
+			print(type_player)
+			print(type)
+			if type == true && type_player != "ledge_1":
+				grab_check_ray_cast.enabled=false
+				print(1)
+				return true
+		else:
+			if type == true :
+				grab_check_ray_cast.enabled=false
+				return true
 func get_current_frame():
 	var frame_index = animation.get_frame()
 	var animation_sprite_frames = animation.get_sprite_frames()
