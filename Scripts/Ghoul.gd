@@ -37,14 +37,6 @@ func _physics_process(delta):
 	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 	#	velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	#var direction = Input.get_axis("ui_left", "ui_right")
-	#if direction:
-	#	velocity.x = direction * SPEED
-	#else:
-	#	velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	if is_chasing == true and is_instance_valid(chasing_player):
 		if direction != -sign(position.x - chasing_player.position.x) and follow_timer.is_stopped():
 			follow_timer.start(ENEMY_RECEPTIVENESS)
@@ -68,9 +60,11 @@ func _physics_process(delta):
 	
 	for i in detection_area.get_overlapping_areas():
 		if i.is_in_group("attack") and can_take_damage:
-			var player = i.get_parent()
-			take_damage(1, i.global_position)
-			can_take_damage = false
+			var player = i.get_node("../../../..")
+			var attack_name = i.get_node("../../..").attack_name
+			if player.has_method("get_attack"):
+				take_damage(player.get_attack(attack_name))
+				can_take_damage = false
 
 
 func start_chasing(player):
@@ -83,25 +77,27 @@ func _on_player_detection_area_body_entered(body):
 
 
 func _on_follow_timer_timeout():
-	direction = -sign(position.x - chasing_player.position.x)
-	temp_scale *= -1
-	scale.x *= -1
+	if is_instance_valid(chasing_player):
+		direction = -sign(position.x - chasing_player.position.x)
+		temp_scale *= -1
+		scale.x *= -1
 
 
 
-func take_damage(ammount, hit_position):
+func take_damage(attack : Attack):
 	#Flash the character white
 	modulate = Color(2, 2, 2, 0.8)
 	
 	#Push back the character
-	var pushback_direction = position - hit_position
+	var pushback_direction = global_position - attack.attack_position
+	print(pushback_direction)
 	pushback_direction = pushback_direction.normalized()
 	pushback_direction.x *= 1.5
 	pushback_direction.y *= 0.5
-	velocity = pushback_direction * pushback_speed
+	velocity = pushback_direction * pushback_speed * attack.knockback_power
 	
 	#Substract health
-	health -= ammount
+	health -= attack.attack_damage
 	if health <= 0:
 		die()
 
@@ -112,3 +108,14 @@ func die():
 func _on_invincibility_timer_timeout():
 	can_take_damage = true
 	modulate = Color(1,1,1,1)
+
+func get_attack():
+	var new_attack = Attack.new()
+	
+	new_attack.attack_damage = 1
+	new_attack.attack_position = global_position
+	new_attack.knockback_power = 1
+	new_attack.knockback_damage = 0
+	new_attack.stun_duration = 0.3
+	
+	return new_attack

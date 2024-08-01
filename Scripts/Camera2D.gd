@@ -52,7 +52,7 @@ func _process(delta):
 	
 	offset += shake_offset
 
-func player_hit(damage):
+func player_hit(attack):
 	shake_frequency = 5
 	shake_duration = .1
 	shake_power = 5

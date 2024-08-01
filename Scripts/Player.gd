@@ -9,7 +9,7 @@ const AFTERIMAGE_FREQ = 0.01
 const DEFAULT_SLOW_DOWN = 1
 const DEFAULT_ATTACK_DECELERATION = 3
 
-signal damage_taken(ammount)
+signal damage_taken(attack)
 signal interacted_with_npc(npc)
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -49,6 +49,8 @@ var attack2_hurtbox_scene = load("res://Scenes/PlayerAttack2.tscn")
 
 var attack_deceleration = DEFAULT_ATTACK_DECELERATION
 
+var stun_duration = 0.3
+
 var player_state = player_states.IDLE
 
 enum player_states {
@@ -81,7 +83,7 @@ func _ready():
 	damage_taken.connect(camera.player_hit)
 	
 func _physics_process(delta):
-	print(player_states.keys()[player_state])
+	#print(player_states.keys()[player_state])
 	#Handle states
 	#Process collisions
 
@@ -100,7 +102,7 @@ func _physics_process(delta):
 	if !is_grabbing:
 		if player_state != player_states.ATTACKING and player_state != player_states.JUMPING:
 			if Input.is_action_just_pressed("ui_click"):
-				play_animation("attack")
+				play_animation("attack1")
 				atttack_slow_down = DEFAULT_SLOW_DOWN
 				attack_deceleration = DEFAULT_ATTACK_DECELERATION
 				player_state = player_states.ATTACKING
@@ -247,27 +249,28 @@ func set_collision_mask_from_list(list_to_set, value): #value e ori true ori fal
 	for i in list_to_set:
 		set_collision_mask_value(i, value)
 
-func take_damage(ammount, hit_position):
+func take_damage(attack : Attack):
 	#Flash the character white
 	modulate = Color(2, 2, 2, 0.8)
 	
 	#Emit signal
-	emit_signal("damage_taken", ammount)
+	emit_signal("damage_taken", attack)
 	
 	#Push back the player
-	var pushback_direction = position - hit_position
+	var pushback_direction = position - attack.attack_position
 	pushback_direction = pushback_direction.normalized()
 	pushback_direction.x *= 1.5
 	pushback_direction.y *= 0.5
-	velocity = pushback_direction * PUSHBACK_SPEED
+	velocity = pushback_direction * PUSHBACK_SPEED * attack.knockback_power
 	is_pushed = true
+	stun_duration = attack.stun_duration
 	
 	set_collision_mask_from_list([2,3,4,5], false)
 	hitbox_area.set_deferred("monitoring", false) 
 
 
 	#Substract hearts
-	heart_ammount -= ammount
+	heart_ammount -= attack.attack_damage
 	if heart_ammount <= 0:
 		game_over()
 
@@ -279,15 +282,18 @@ func _on_hitbox_area_entered(area):
 	if area.get_parent().is_in_group("npc"):
 		pass
 	else:
-		if !is_pushed:
-			take_damage(1, area.global_position)
+		if !is_pushed and area.get_parent().has_method("get_attack"):
+			var enemy_attack = area.get_parent().get_attack()
+			take_damage(enemy_attack)
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("npc"):
 		pass
 	else:
-		if !is_pushed:
-			take_damage(1, body.global_position)
+		if !is_pushed and body.has_method("get_attack"):
+			pass
+			#var enemy_attack = body.get_attack()
+			#take_damage(enemy_attack)
 
 func start_afterimage():
 	if afterimage_count == 0:
@@ -397,3 +403,15 @@ func play_animation(new_anim):
 	current_animation = new_anim
 	animation.animation = current_animation
 	animation.play()
+
+func get_attack(attack_name):
+	var new_attack = Attack.new()
+	match attack_name:
+		"attack1":
+			new_attack.attack_damage = 10
+			new_attack.attack_position = global_position
+			return new_attack
+		"attack2":
+			new_attack.knockback_power = 1
+			new_attack.attack_position = global_position
+			return new_attack

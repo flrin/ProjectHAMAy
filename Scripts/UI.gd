@@ -22,8 +22,8 @@ func _ready():
 func _process(delta):
 	pass
 
-func change_health(num):
-	health_bar.change_candles(-num)
+func change_health(attack):
+	health_bar.change_candles(-attack.attack_damage)
 
 func change_max_health(num):
 	health_bar.change_max_candles(num)

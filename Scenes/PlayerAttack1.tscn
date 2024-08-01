@@ -10,6 +10,7 @@ height = 38.0
 
 [node name="PlayerAttack1" type="Node2D"]
 script = ExtResource("1_lxr8f")
+attack_name = "attack1"
 
 [node name="AttackHurtbox" parent="." node_paths=PackedStringArray("attack_parts") instance=ExtResource("2_e3l7u")]
 attack_parts = [NodePath("AttackPart2"), NodePath("AttackPart")]

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://65iwbucnc0nb" path="res://Assets/Backgrounds/Background1.png" id="1_2qbad"]
 [ext_resource type="PackedScene" uid="uid://21gmtvk717cv" path="res://Scenes/UI.tscn" id="1_reoax"]
 [ext_resource type="PackedScene" uid="uid://be7r62bppl55r" path="res://Scenes/Player.tscn" id="2_trfb5"]
-[ext_resource type="PackedScene" uid="uid://mbp2hl0vpxhb" path="res://Scenes/DefaultEnemy.tscn" id="3_7ygky"]
+[ext_resource type="PackedScene" uid="uid://mbp2hl0vpxhb" path="res://Scenes/Ghoul.tscn" id="3_7ygky"]
 [ext_resource type="PackedScene" uid="uid://davy56t4yxi7i" path="res://Scenes/TileMap.tscn" id="3_t750v"]
 [ext_resource type="PackedScene" uid="uid://brwcd3q2g4h1j" path="res://Scenes/Cat.tscn" id="6_fgqlj"]
 [ext_resource type="PackedScene" uid="uid://jyvegrdqn22p" path="res://Scenes/CandleTotem.tscn" id="7_iwy36"]
@@ -14,7 +14,7 @@
 
 [node name="Background1" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(-239, -722)
+position = Vector2(849, 149)
 scale = Vector2(1.36, 1.36)
 texture = ExtResource("1_2qbad")
 
@@ -22,7 +22,7 @@ texture = ExtResource("1_2qbad")
 position = Vector2(146, -160)
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_trfb5")]
-position = Vector2(-238, -629)
+position = Vector2(850, 242)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 position = Vector2(-1, -93)

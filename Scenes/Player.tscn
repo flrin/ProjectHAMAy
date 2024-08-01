@@ -100,7 +100,7 @@ animations = [{
 "texture": ExtResource("14_gn2p2")
 }],
 "loop": false,
-"name": &"attack",
+"name": &"attack1",
 "speed": 14.0
 }, {
 "frames": [{
@@ -273,7 +273,7 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(14, -32)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"attack2"
+animation = &"attack1"
 
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true
