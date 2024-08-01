@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://2e5wlli0atly"]
+[gd_scene load_steps=9 format=3 uid="uid://2e5wlli0atly"]
 
 [ext_resource type="Texture2D" uid="uid://65iwbucnc0nb" path="res://Assets/Backgrounds/Background1.png" id="1_2qbad"]
 [ext_resource type="PackedScene" uid="uid://21gmtvk717cv" path="res://Scenes/UI.tscn" id="1_reoax"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://davy56t4yxi7i" path="res://Scenes/TileMap.tscn" id="3_t750v"]
 [ext_resource type="PackedScene" uid="uid://brwcd3q2g4h1j" path="res://Scenes/Cat.tscn" id="6_fgqlj"]
 [ext_resource type="PackedScene" uid="uid://jyvegrdqn22p" path="res://Scenes/CandleTotem.tscn" id="7_iwy36"]
+[ext_resource type="PackedScene" uid="uid://3ouwiaxypcqv" path="res://Scenes/Horseman.tscn" id="8_p8fee"]
 
 [node name="Main" type="Node"]
 
@@ -34,7 +35,7 @@ update_scale = false
 position = Vector2(-866, 351)
 
 [node name="TestDummyEnemy2" parent="." instance=ExtResource("3_7ygky")]
-position = Vector2(652, 214)
+position = Vector2(-1383, 1089)
 
 [node name="UI" parent="." instance=ExtResource("1_reoax")]
 
@@ -46,3 +47,6 @@ position = Vector2(0, -1411)
 rotation = -0.705587
 color = Color(1, 1, 1, 0.219608)
 shadow_enabled = true
+
+[node name="Horseman" parent="." instance=ExtResource("8_p8fee")]
+position = Vector2(623, 207)

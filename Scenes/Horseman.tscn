@@ -1,0 +1,216 @@
+[gd_scene load_steps=37 format=3 uid="uid://3ouwiaxypcqv"]
+
+[ext_resource type="Script" path="res://Scripts/Horseman.gd" id="1_1jtnj"]
+[ext_resource type="Texture2D" uid="uid://dlucim1gawf66" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit1.png" id="1_ptgrc"]
+[ext_resource type="Texture2D" uid="uid://dwstiyme3kit0" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit2.png" id="2_0l8h3"]
+[ext_resource type="Texture2D" uid="uid://ofeob8upr1wx" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit3.png" id="3_gkt4v"]
+[ext_resource type="Texture2D" uid="uid://bfh04fnvdg2u2" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit4.png" id="4_1fpbl"]
+[ext_resource type="Texture2D" uid="uid://biykhbwb54ot3" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit5.png" id="5_0g34f"]
+[ext_resource type="Texture2D" uid="uid://co2u68ssrxgcq" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit6.png" id="6_f6cto"]
+[ext_resource type="Texture2D" uid="uid://w6snapn8nv4" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit7.png" id="7_ko8kv"]
+[ext_resource type="Texture2D" uid="uid://bnd8w3y2vqc4u" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit8.png" id="8_r7lyn"]
+[ext_resource type="Texture2D" uid="uid://4qmute1kmdhi" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit9.png" id="9_tq8ae"]
+[ext_resource type="Texture2D" uid="uid://8cdi06ktmn5b" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit10.png" id="10_hysfg"]
+[ext_resource type="Texture2D" uid="uid://bnw6e3ymkbf8t" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit11.png" id="11_lrqie"]
+[ext_resource type="Texture2D" uid="uid://cyfdbnraml2xq" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit12.png" id="12_synei"]
+[ext_resource type="Texture2D" uid="uid://c2bycdd2to8e5" path="res://Assets/Characters/Horseman/HorsemanAttack/HorseManHit13.png" id="13_8nni4"]
+[ext_resource type="Texture2D" uid="uid://dodacyoh25x5u" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle1.png" id="14_7lsbm"]
+[ext_resource type="Texture2D" uid="uid://b3sl3pk7g8bps" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle2.png" id="15_7ad7r"]
+[ext_resource type="Texture2D" uid="uid://cx7ofjhqx28cm" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle3.png" id="16_etbu3"]
+[ext_resource type="Texture2D" uid="uid://cu1simeddwc2k" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle4.png" id="17_wndu4"]
+[ext_resource type="Texture2D" uid="uid://ddxvl1lw7m0py" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle5.png" id="18_g3st4"]
+[ext_resource type="Texture2D" uid="uid://4h3r20bp3o5r" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle6.png" id="19_ssp4y"]
+[ext_resource type="Texture2D" uid="uid://bpvdtprm5u8sc" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle7.png" id="20_lidr4"]
+[ext_resource type="Texture2D" uid="uid://dwwju0d453lf" path="res://Assets/Characters/Horseman/HorsemanIdle/HorseManIdle8.png" id="21_1ykeh"]
+[ext_resource type="Texture2D" uid="uid://dnpd6m5i6x3gw" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk1.png" id="22_rrjcf"]
+[ext_resource type="Texture2D" uid="uid://cdwkknjm6o27g" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk2.png" id="23_7ggtf"]
+[ext_resource type="Texture2D" uid="uid://dbegv1h71ycxv" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk3.png" id="24_fy3gu"]
+[ext_resource type="Texture2D" uid="uid://cgpao7200rf4n" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk4.png" id="25_xjy27"]
+[ext_resource type="Texture2D" uid="uid://dwfgrhr5lrucb" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk5.png" id="26_n0y3a"]
+[ext_resource type="Texture2D" uid="uid://d011gayrcsjrq" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk6.png" id="27_jhx7o"]
+[ext_resource type="Texture2D" uid="uid://krilu8o3o03g" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk7.png" id="28_hkv8c"]
+[ext_resource type="Texture2D" uid="uid://tp8r53uo0w1u" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk8.png" id="29_bbn50"]
+[ext_resource type="Texture2D" uid="uid://iixd11536k0n" path="res://Assets/Characters/Horseman/HorsemanWalk/HorseManWalk9.png" id="30_wbgnq"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gec2h"]
+radius = 7.0
+height = 46.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ybamb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ptgrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_0l8h3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gkt4v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_1fpbl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0g34f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_f6cto")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ko8kv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_r7lyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_tq8ae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_hysfg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_lrqie")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_synei")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_8nni4")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_7lsbm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_7ad7r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_etbu3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_wndu4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_g3st4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_ssp4y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_lidr4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_1ykeh")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_rrjcf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_7ggtf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_fy3gu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_xjy27")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_n0y3a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_jhx7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_hkv8c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_bbn50")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_wbgnq")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 9.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_h6peh"]
+radius = 11.0
+height = 56.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xropu"]
+radius = 111.221
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ryoex"]
+radius = 43.1045
+
+[node name="Horseman" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_1jtnj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -23)
+shape = SubResource("CapsuleShape2D_gec2h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-33, -64)
+sprite_frames = SubResource("SpriteFrames_ybamb")
+animation = &"attack"
+autoplay = "idle"
+frame = 12
+frame_progress = 1.0
+centered = false
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 66
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -26)
+shape = SubResource("CapsuleShape2D_h6peh")
+
+[node name="DetectionLayer1" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionLayer1"]
+position = Vector2(0, -25)
+shape = SubResource("CircleShape2D_xropu")
+
+[node name="DetectionLayer2" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionLayer2"]
+position = Vector2(0, -26)
+shape = SubResource("CircleShape2D_ryoex")
+
+[node name="FollowTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="InvincibilityTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AttackTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="DetectionLayer1" to="." method="_on_player_detection_layer1_body_entered"]
+[connection signal="body_entered" from="DetectionLayer2" to="." method="_on_detection_layer2_body_entered"]
+[connection signal="timeout" from="FollowTimer" to="." method="_on_follow_timer_timeout"]
+[connection signal="timeout" from="InvincibilityTimer" to="." method="_on_invincibility_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

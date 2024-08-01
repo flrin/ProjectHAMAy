@@ -282,9 +282,15 @@ func _on_hitbox_area_entered(area):
 	if area.get_parent().is_in_group("npc"):
 		pass
 	else:
-		if !is_pushed and area.get_parent().has_method("get_attack"):
-			var enemy_attack = area.get_parent().get_attack()
-			take_damage(enemy_attack)
+		if !is_pushed:
+			var enemy_attack
+			if area.get_parent().has_method("get_attack"):
+				enemy_attack = area.get_parent().get_attack()
+				take_damage(enemy_attack)
+			else:
+				if area.get_node("../../../..").has_method("get_attack"):
+					enemy_attack = area.get_node("../../../..").get_attack()
+					take_damage(enemy_attack)
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("npc"):
