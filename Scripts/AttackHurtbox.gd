@@ -17,7 +17,8 @@ func _physics_process(delta):
 		attack_parts[attack_counter].stop_attack_part()
 		attack_counter += 1
 		if attack_counter == len(attack_parts):
-			queue_free()
+			get_parent().queue_free()
+			
 		else:
 			attack_parts[attack_counter].start_attack_part(attacker)
 		

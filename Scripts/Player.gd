@@ -7,6 +7,7 @@ const PUSHBACK_SPEED  = 300
 const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
 const DEFAULT_SLOW_DOWN = 1
+const DEFAULT_ATTACK_DECELERATION = 3
 
 signal damage_taken(ammount)
 signal interacted_with_npc(npc)
@@ -27,7 +28,6 @@ var afterimage_count = 10
 var tilemap
 var animation
 var fake_direction = 1
-var walking_animation_frames
 var jump_counter = 1
 var pushback_timer
 var dodge_count = 1
@@ -45,6 +45,21 @@ var is_grabbing=false
 var current_animation = "walk"
 
 var attack1_hurtbox_scene = load("res://Scenes/PlayerAttack1.tscn")
+var attack2_hurtbox_scene = load("res://Scenes/PlayerAttack2.tscn")
+
+var attack_deceleration = DEFAULT_ATTACK_DECELERATION
+
+var player_state = player_states.IDLE
+
+enum player_states {
+	ATTACKING,
+	IDLE,
+	RUNNING,
+	JUMPING,
+	LANDING,
+	WALKING,
+	DODGING
+}
 
 func _ready():
 	atttack_slow_down = 1
@@ -58,7 +73,6 @@ func _ready():
 	set_collision_mask_from_list([2,3,4,5], true)
 	afterimage_timer = $AfterimageTimer
 	tilemap=get_node("../TileMap")
-	walking_animation_frames = animation.get_sprite_frames()
 	pushback_timer = $PushbackTimer
 	grab_check_ray_cast = $GrabCheckRayCast
 	grab_ray_cast = $GrabRayCast
@@ -67,44 +81,60 @@ func _ready():
 	damage_taken.connect(camera.player_hit)
 	
 func _physics_process(delta):
+	print(player_states.keys()[player_state])
+	#Handle states
 	#Process collisions
 
 	# Add the gravity.
 	if not is_on_floor():
 		if is_pushed == false:
 			velocity.y += gravity * delta
-			if velocity.y > 0 and animation.get_animation() != "jump" and velocity.y > 100:
+			if velocity.y > 0 and player_state != player_states.JUMPING and velocity.y > 100:
 				play_animation("jump")
+				player_state = player_states.JUMPING
 		else:
 			velocity.y += gravity * delta * 2
 
 	
 	#Handle attack
 	if !is_grabbing:
-		if animation.get_animation() != "attack" and Input.is_action_just_pressed("ui_click") and animation.get_animation() != "jump":
-			play_animation("attack")
-			atttack_slow_down = DEFAULT_SLOW_DOWN
+		if player_state != player_states.ATTACKING and player_state != player_states.JUMPING:
+			if Input.is_action_just_pressed("ui_click"):
+				play_animation("attack")
+				atttack_slow_down = DEFAULT_SLOW_DOWN
+				attack_deceleration = DEFAULT_ATTACK_DECELERATION
+				player_state = player_states.ATTACKING
+				
+				is_attacking = true
+				hurtbox_node = attack1_hurtbox_scene.instantiate()
+				hurtbox_node.get_ready("player")
+				add_child(hurtbox_node)
+
+			if Input.is_action_just_pressed("ui_1"):
+				animation.position.x = 14
+				play_animation("attack2")
+				atttack_slow_down = DEFAULT_SLOW_DOWN
+				attack_deceleration = DEFAULT_ATTACK_DECELERATION * .01
+				player_state = player_states.ATTACKING
+			
+				is_attacking = true
+				hurtbox_node = attack2_hurtbox_scene.instantiate()
+				hurtbox_node.get_ready("player")
+				add_child(hurtbox_node)
 	
-	if animation.get_animation() == "attack":
+	if animation.get_animation() != "attack2":
+		animation.position.x = -2
+	
+	if player_state == player_states.ATTACKING:
 		if velocity.y > 50 and is_instance_valid(hurtbox_node):
 			hurtbox_node.queue_free()
 			hurtbox_node = null
 			is_attacking = false
 			atttack_slow_down = 1
 		
-		if animation.frame == 5 and hurtbox_node == null:
-			is_attacking = true
-			hurtbox_node = attack1_hurtbox_scene.instantiate()
-			hurtbox_node.get_ready("player")
-			add_child(hurtbox_node)
-		if animation.frame == 9 and is_instance_valid(hurtbox_node):
-			hurtbox_node.queue_free()
-			hurtbox_node = null
-			is_attacking = false
-			atttack_slow_down = 1
 	
-	if animation.get_animation() == "attack":
-		atttack_slow_down = lerpf(atttack_slow_down, 0, delta * 3)
+	if player_state == player_states.ATTACKING and is_attacking:
+		atttack_slow_down = lerpf(atttack_slow_down, 0, delta * attack_deceleration)
 	else:
 		atttack_slow_down = 1
 	
@@ -130,6 +160,7 @@ func _physics_process(delta):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 					play_animation("jump")
+					player_state = player_states.JUMPING
 			else:
 				jump_counter = 1
 		else:
@@ -138,11 +169,13 @@ func _physics_process(delta):
 					velocity.y = JUMP_VELOCITY
 					jump_counter -= 1
 					play_animation("jump")
+					player_state = player_states.JUMPING
 	
-	if current_animation == "jump":
-		hitbox_area.get_node("CollisionShape2D").shape.height = 30
+	if player_state == player_states.JUMPING:
+		hitbox_area.get_node("CollisionShape2D").shape.height = 20
 		if is_on_floor() and !animation.is_playing():
 			play_animation("land")
+			player_state = player_states.LANDING
 	else:
 		hitbox_area.get_node("CollisionShape2D").shape.height = 48
 	
@@ -159,7 +192,7 @@ func _physics_process(delta):
 			if is_grabbing : return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
 	#Handle dodge
 	if dodge_accel == 1:
-		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and animation.animation != "attack" and !is_reading:
+		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and player_state != player_states.ATTACKING and !is_reading:
 			if is_pushed == false:
 				dodge_accel = DODGE_ACCELERATION
 				set_collision_mask_from_list([2,3,4,5], false)
@@ -168,6 +201,7 @@ func _physics_process(delta):
 				start_afterimage()
 				dodge_count = 1
 				modulate = Color(0.43,0.1,0.03,0.823)
+				player_state = player_states.DODGING
 		else:
 			if dodge_count == 1:
 				set_collision_mask_from_list([2,3,4,5], true)
@@ -175,6 +209,7 @@ func _physics_process(delta):
 				hitbox_area.set_deferred("monitoring", true) 
 				set_color_default()
 				dodge_count = 0
+				player_state = player_states.WALKING
 	else:
 		dodge_accel -= 0.5
 
@@ -185,7 +220,7 @@ func _physics_process(delta):
 		scale.x *= -1
 		fake_direction = direction
 		
-	if animation.get_animation() == "walk":
+	if player_state == player_states.WALKING:
 		if direction == 0: #trebe animatie de idle cand cacam
 			animation.stop()
 		else :
@@ -313,8 +348,12 @@ func text_ended():
 	is_reading = false
 
 func _on_animated_sprite_2d_animation_finished():
-	if animation.animation == "attack" or animation.animation == "land":
+	if player_state == player_states.ATTACKING or player_state == player_states.LANDING:
 		play_animation("walk")
+		player_state = player_states.WALKING
+		is_attacking = false
+		atttack_slow_down = 1
+		animation.position.x = -2
 
 func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
