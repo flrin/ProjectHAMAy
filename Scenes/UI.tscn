@@ -1,9 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://21gmtvk717cv"]
+[gd_scene load_steps=5 format=3 uid="uid://21gmtvk717cv"]
 
 [ext_resource type="Script" path="res://Scripts/UI.gd" id="1_1676t"]
 [ext_resource type="PackedScene" uid="uid://d2gp11g05uadj" path="res://Scenes/HealthBar.tscn" id="1_faax2"]
+[ext_resource type="FontFile" uid="uid://dmfhrdya3ne0b" path="res://Assets/Other/Font1.ttf" id="1_opf0n"]
 
 [sub_resource type="Theme" id="Theme_hvpj3"]
+default_font = ExtResource("1_opf0n")
 
 [node name="UI" type="CanvasLayer"]
 

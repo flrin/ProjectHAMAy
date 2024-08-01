@@ -92,6 +92,7 @@ ui_click={
 2d_physics/layer_5="Throwables"
 2d_physics/layer_6="NPC"
 2d_physics/layer_7="PlayerAttacks"
+2d_physics/layer_8="EnemyAttacks"
 
 [rendering]
 

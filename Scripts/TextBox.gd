@@ -15,7 +15,7 @@ func get_ready(temp_npc_name, temp_page_number):
 	npc_name = temp_npc_name
 	page_number = temp_page_number
 	
-	npc_name_label.text = npc_name.to_upper()
+	npc_name_label.text = npc_name.to_upper().replace("_", " ")
 	
 	match npc_name:
 		"cat":

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bu1ldfwjgs42j"]
+
+[ext_resource type="Script" path="res://Scripts/GeneralAttack.gd" id="1_lxr8f"]
+[ext_resource type="PackedScene" uid="uid://b6v4hu24fwnp4" path="res://Scenes/AttackHurtbox.tscn" id="2_e3l7u"]
+[ext_resource type="Script" path="res://Scripts/AttackPart.gd" id="3_ct2od"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f8gmf"]
+radius = 14.0
+height = 44.0
+
+[node name="PlayerAttack1" type="Node2D"]
+script = ExtResource("1_lxr8f")
+
+[node name="AttackHurtbox" parent="." node_paths=PackedStringArray("attack_parts") instance=ExtResource("2_e3l7u")]
+attack_parts = [NodePath("AttackPart")]
+
+[node name="AttackPart" type="Node2D" parent="AttackHurtbox" node_paths=PackedStringArray("hurtbox")]
+script = ExtResource("3_ct2od")
+attack_duration = 0.2
+hurtbox = [NodePath("CollisionShape2D")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHurtbox/AttackPart"]
+position = Vector2(11, -34)
+rotation = 1.57079
+shape = SubResource("CapsuleShape2D_f8gmf")
+disabled = true

@@ -34,7 +34,7 @@ var dodge_count = 1
 var camera
 var is_reading = false
 var is_attacking = false
-var hurtbox_area_scene = load("res://Scenes/HurtBox1.tscn")
+
 var hurtbox_node
 var atttack_slow_down
 
@@ -43,6 +43,8 @@ var grab_check_ray_cast
 var is_grabbing=false
 
 var current_animation = "walk"
+
+var attack1_hurtbox_scene = load("res://Scenes/PlayerAttack1.tscn")
 
 func _ready():
 	atttack_slow_down = 1
@@ -71,7 +73,6 @@ func _physics_process(delta):
 	if not is_on_floor():
 		if is_pushed == false:
 			velocity.y += gravity * delta
-			print(velocity)
 			if velocity.y > 0 and animation.get_animation() != "jump" and velocity.y > 100:
 				play_animation("jump")
 		else:
@@ -93,7 +94,8 @@ func _physics_process(delta):
 		
 		if animation.frame == 5 and hurtbox_node == null:
 			is_attacking = true
-			hurtbox_node = hurtbox_area_scene.instantiate()
+			hurtbox_node = attack1_hurtbox_scene.instantiate()
+			hurtbox_node.get_ready("player")
 			add_child(hurtbox_node)
 		if animation.frame == 9 and is_instance_valid(hurtbox_node):
 			hurtbox_node.queue_free()
@@ -204,6 +206,7 @@ func _physics_process(delta):
 	fall_down_ledge() #nus unde vrei sa lasi asta
 
 	move_and_slide()
+	
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
 	for i in list_to_set:

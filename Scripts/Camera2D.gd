@@ -44,7 +44,7 @@ func _process(delta):
 				if offset.y <= 0:
 					is_up = false
 				if !is_up:
-					offset.y = lerpf(offset.y, player_vel_vector.y * 0.2, delta * 8)
+					offset.y = lerpf(offset.y, player_vel_vector.y * 0.2, delta * 5)
 				else:
 					offset.y = lerpf(offset.y, saved_player_pos.y - player.position.y + 5.8, delta * 5) # nu vrei sa sti ce e 5.8
 	
