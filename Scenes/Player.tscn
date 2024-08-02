@@ -271,9 +271,10 @@ wait_time = 0.5
 one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(14, -32)
+position = Vector2(-33, -64)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"attack1"
+animation = &"land"
+centered = false
 
 [node name="PushbackTimer" type="Timer" parent="."]
 one_shot = true

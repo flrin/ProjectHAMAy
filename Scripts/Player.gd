@@ -8,6 +8,7 @@ const AFTERIMAGE_NUMBER = 5
 const AFTERIMAGE_FREQ = 0.01
 const DEFAULT_SLOW_DOWN = 1
 const DEFAULT_ATTACK_DECELERATION = 3
+const CLIMBING_SPEED = -300
 
 signal damage_taken(attack)
 signal interacted_with_npc(npc)
@@ -30,7 +31,7 @@ var animation
 var fake_direction = 1
 var jump_counter = 1
 var pushback_timer
-var dodge_count = 1
+var dodge_count = 0
 var camera
 var is_reading = false
 var is_attacking = false
@@ -60,7 +61,9 @@ enum player_states {
 	JUMPING,
 	LANDING,
 	WALKING,
-	DODGING
+	DODGING,
+	CLIMBING,
+	NONE
 }
 
 func _ready():
@@ -83,20 +86,36 @@ func _ready():
 	damage_taken.connect(camera.player_hit)
 	
 func _physics_process(delta):
-	#print(player_states.keys()[player_state])
-	#Handle states
+	print(player_states.keys()[player_state])
+	
 	#Process collisions
 
 	# Add the gravity.
 	if not is_on_floor():
 		if is_pushed == false:
 			velocity.y += gravity * delta
-			if velocity.y > 0 and player_state != player_states.JUMPING and velocity.y > 100:
+			if velocity.y > 0 and player_state != player_states.JUMPING and player_state != player_states.CLIMBING and velocity.y > 100:
 				play_animation("jump")
 				player_state = player_states.JUMPING
 		else:
 			velocity.y += gravity * delta * 2
-
+	
+	#Handle ladder climbing
+	if is_on_ladder():
+		if Input.is_action_pressed("ui_up"):
+			velocity.y = CLIMBING_SPEED
+			player_state = player_states.CLIMBING
+		else:
+			if Input.is_action_pressed("ui_down"):
+				velocity.y = -CLIMBING_SPEED
+				player_state = player_states.CLIMBING
+			else:
+				if player_state == player_states.CLIMBING:
+					velocity.y = 0
+	else:
+		if player_state == player_states.CLIMBING:
+			player_state = player_states.NONE 
+			check_available_state()
 	
 	#Handle attack
 	if !is_grabbing:
@@ -113,7 +132,6 @@ func _physics_process(delta):
 				add_child(hurtbox_node)
 
 			if Input.is_action_just_pressed("ui_1"):
-				animation.position.x = 14
 				play_animation("attack2")
 				atttack_slow_down = DEFAULT_SLOW_DOWN
 				attack_deceleration = DEFAULT_ATTACK_DECELERATION * .01
@@ -124,8 +142,6 @@ func _physics_process(delta):
 				hurtbox_node.get_ready("player")
 				add_child(hurtbox_node)
 	
-	if animation.get_animation() != "attack2":
-		animation.position.x = -2
 	
 	if player_state == player_states.ATTACKING:
 		if velocity.y > 50 and is_instance_valid(hurtbox_node):
@@ -211,7 +227,8 @@ func _physics_process(delta):
 				hitbox_area.set_deferred("monitoring", true) 
 				set_color_default()
 				dodge_count = 0
-				player_state = player_states.WALKING
+				player_state = player_states.NONE
+				check_available_state()
 	else:
 		dodge_accel -= 0.5
 
@@ -225,12 +242,14 @@ func _physics_process(delta):
 	if player_state == player_states.WALKING:
 		if direction == 0: #trebe animatie de idle cand cacam
 			animation.stop()
-		else :
-			animation.play()
+			player_state = player_states.IDLE
 		
 	if is_pushed == false:
 		if direction and (!is_attacking or !is_on_floor()):
 			velocity.x = direction * SPEED * dodge_accel * atttack_slow_down
+			if  player_state == player_states.IDLE:
+				player_state = player_states.WALKING
+				play_animation("walk")
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED * delta * 18.25)
 	else:
@@ -241,7 +260,7 @@ func _physics_process(delta):
 		pushback_timer.start(0.3)
 	
 	fall_down_ledge() #nus unde vrei sa lasi asta
-
+	
 	move_and_slide()
 	
 
@@ -361,15 +380,14 @@ func text_ended():
 
 func _on_animated_sprite_2d_animation_finished():
 	if player_state == player_states.ATTACKING or player_state == player_states.LANDING:
-		play_animation("walk")
-		player_state = player_states.WALKING
+		player_state = player_states.NONE
+		check_available_state()
 		is_attacking = false
 		atttack_slow_down = 1
-		animation.position.x = -2
 
 func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
-	var check_hand = not grab_ray_cast.is_colliding()
+	var check_hand = not grab_ray_cast.is_colliding() 
 	var check_grabbing_height = grab_check_ray_cast.is_colliding()
 	var tile = grab_check_ray_cast.get_collision_point()
 	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && (_check_ledge_one_way_grab(tile) || is_on_wall_only()) #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
@@ -421,3 +439,20 @@ func get_attack(attack_name):
 			new_attack.knockback_power = 1
 			new_attack.attack_position = global_position
 			return new_attack
+
+func is_on_ladder():
+	var player_coords=tilemap.local_to_map(tilemap.to_local(global_position))
+	player_coords.y += -1
+	var data_player = tilemap.get_cell_tile_data(2,player_coords)
+	if data_player:
+		var type = data_player.get_custom_data("type")
+		return type == "ladder"
+
+func check_available_state():
+	#Handle states
+	if player_state == player_states.NONE:
+		if is_on_floor():
+			player_state = player_states.IDLE
+		else:
+			player_state = player_states.JUMPING
+			play_animation("jump")

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=57 format=3 uid="uid://ofc7o18ang4o"]
+[gd_resource type="TileSet" load_steps=59 format=3 uid="uid://ofc7o18ang4o"]
 
 [ext_resource type="Texture2D" uid="uid://cd40s071p35kp" path="res://Assets/Tiles/PalaceTiles/PalaceTilesMerged.png" id="1_dj0gg"]
 [ext_resource type="Texture2D" uid="uid://dxny5vauf44p" path="res://Assets/Tiles/NightBricks/NightBricks.png" id="2_bv02c"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cnu2i7f6casrb" path="res://Assets/Characters/pisica3.png" id="4_70y6d"]
 [ext_resource type="Texture2D" uid="uid://cltvv0o1pfjw1" path="res://Assets/Tiles/NightRockySand/NightRockySand.png" id="7_cnme2"]
 [ext_resource type="Texture2D" uid="uid://cthra2cfreosd" path="res://Assets/Tiles/PalaceTiles/BigBolt.png" id="8_ldr87"]
+[ext_resource type="Texture2D" uid="uid://ts4hh4amk4i0" path="res://Assets/Tiles/Ladder.png" id="10_vi7pk"]
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_rxi8y"]
 tile_data = PackedInt32Array(0, 196612, 0, 65536, 65540, 131072, 131072, 65540, 131072, 196608, 65540, 131072, 262144, 4, 0, 1, 65540, 0, 65537, 131076, 0, 131073, 131076, 0, 196609, 131076, 0, 262145, 131076, 0, 2, 65540, 0, 65538, 131076, 0, 131074, 131076, 0, 196610, 131076, 0, 262146, 131076, 0, 3, 65540, 0, 65539, 131076, 0, 131075, 131076, 0, 196611, 131076, 0, 262147, 131076, 0, 4, 65540, 0, 65540, 131076, 0, 131076, 131076, 0, 196612, 131076, 0, 262148, 131076, 0, 5, 65540, 0, 65541, 131076, 0, 131077, 131076, 0, 196613, 131076, 0, 262149, 131076, 0, 6, 65540, 0, 65542, 131076, 0, 131078, 131076, 0, 196614, 131076, 0, 262150, 131076, 0, 7, 65540, 0, 65543, 131076, 0, 131079, 131076, 0, 196615, 131076, 0, 262151, 131076, 0, 8, 4, 0, 65544, 131076, 0, 131080, 131076, 0, 196616, 131076, 0, 262152, 131076, 0, 9, 131076, 0, 65545, 131076, 0, 131081, 131076, 0, 196617, 131076, 0, 262153, 131076, 0, 10, 131076, 0, 65546, 131076, 0, 131082, 131076, 0, 196618, 131076, 0, 262154, 131076, 0, 11, 131076, 0, 65547, 131076, 0, 131083, 131076, 0, 196619, 131076, 0, 262155, 131076, 0, 12, 131076, 0, 65548, 131076, 0, 131084, 131076, 0, 196620, 131076, 0, 262156, 131076, 0, 13, 131076, 0, 65549, 131076, 0, 131085, 131076, 0, 196621, 131076, 0, 262157, 131076, 0, 14, 131076, 0, 65550, 4, 65536, 131086, 65540, 196608, 196622, 65540, 196608, 262158, 65540, 196608)
@@ -754,6 +755,34 @@ texture_region_size = Vector2i(35, 57)
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vc3cq"]
+texture = ExtResource("10_vi7pk")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/terrain_set = 0
+0:0/0/terrain = 5
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+0:0/0/terrains_peering_bit/bottom_side = 5
+0:0/0/terrains_peering_bit/top_side = 5
+0:0/0/custom_data_0 = "ladder"
+0:1/0 = 0
+0:1/0/terrain_set = 0
+0:1/0/terrain = 5
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+0:1/0/terrains_peering_bit/bottom_side = 5
+0:1/0/terrains_peering_bit/top_side = 5
+0:1/0/custom_data_0 = "ladder"
+0:2/0 = 0
+0:2/0/terrain_set = 0
+0:2/0/terrain = 5
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+0:2/0/terrains_peering_bit/bottom_side = 5
+0:2/0/terrains_peering_bit/top_side = 5
+0:2/0/custom_data_0 = "ladder"
+
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_tmwff"]
 polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
@@ -983,6 +1012,8 @@ terrain_set_0/terrain_3/name = "PalaceColumns"
 terrain_set_0/terrain_3/color = Color(0.375, 0.5, 0.25, 1)
 terrain_set_0/terrain_4/name = "StoneLedge"
 terrain_set_0/terrain_4/color = Color(0.28125, 0.5, 0.25, 1)
+terrain_set_0/terrain_5/name = " Ladder"
+terrain_set_0/terrain_5/color = Color(0.25, 0.5, 0.3125, 1)
 custom_data_layer_0/name = "type"
 custom_data_layer_0/type = 4
 custom_data_layer_1/name = "Margine"
@@ -997,6 +1028,7 @@ sources/16 = SubResource("TileSetAtlasSource_x7tfb")
 sources/0 = SubResource("TileSetAtlasSource_sghko")
 sources/12 = SubResource("TileSetAtlasSource_p76rt")
 sources/4 = SubResource("TileSetAtlasSource_8k42w")
+sources/6 = SubResource("TileSetAtlasSource_vc3cq")
 tile_proxies/coords_level = [[0, Vector2i(0, 0)], [8, Vector2i(0, 0)], [3, Vector2i(0, 0)], [4, Vector2i(0, 0)], [4, Vector2i(0, 0)], [8, Vector2i(1, 0)], [4, Vector2i(1, 0)], [3, Vector2i(2, 0)], [4, Vector2i(2, 0)], [3, Vector2i(3, 0)], [5, Vector2i(0, 0)], [9, Vector2i(2, 0)], [6, Vector2i(0, 0)], [8, Vector2i(2, 0)], [7, Vector2i(0, 0)], [8, Vector2i(3, 0)], [8, Vector2i(0, 0)], [9, Vector2i(5, 0)], [9, Vector2i(0, 0)], [12, Vector2i(0, 0)], [10, Vector2i(0, 0)], [12, Vector2i(1, 0)], [11, Vector2i(0, 0)], [12, Vector2i(2, 0)], [12, Vector2i(0, 0)], [13, Vector2i(3, 0)], [14, Vector2i(0, 0)], [16, Vector2i(0, 0)], [15, Vector2i(0, 0)], [16, Vector2i(1, 0)], [17, Vector2i(0, 0)], [4, Vector2i(1, 0)], [17, Vector2i(1, 0)], [4, Vector2i(2, 0)], [17, Vector2i(2, 0)], [4, Vector2i(3, 0)]]
 pattern_0 = SubResource("TileMapPattern_rxi8y")
 pattern_1 = SubResource("TileMapPattern_x0b4e")
