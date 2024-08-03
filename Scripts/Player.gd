@@ -207,6 +207,8 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("ui_accept") and (is_on_floor() || is_grabbing) && !Input.is_action_pressed("ui_down"):
 				is_grabbing=false
 				velocity.y = JUMP_VELOCITY
+				player_state = player_states.NONE
+				check_available_state()
 			if is_grabbing : return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
 	#Handle dodge
 	if dodge_accel == 1:
@@ -394,6 +396,7 @@ func _check_ledge_grab():
 	
 	if can_grab:
 		is_grabbing = true
+		play_animation("hang")
 		#
 		#animatie de ledge climb play
 		#

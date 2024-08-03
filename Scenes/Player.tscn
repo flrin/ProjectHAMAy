@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://be7r62bppl55r"]
+[gd_scene load_steps=58 format=3 uid="uid://be7r62bppl55r"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_kmc2f"]
 [ext_resource type="Texture2D" uid="uid://bj6phx3urxxpm" path="res://Assets/Characters/PlayerCharacter.png" id="2_b4rcf"]
@@ -51,6 +51,7 @@
 [ext_resource type="Texture2D" uid="uid://blik2rfut8n0l" path="res://Assets/Characters/Player/Attack2Animation/Attack2Animation16.png" id="31_l4noy"]
 [ext_resource type="Texture2D" uid="uid://c10hnvr2cxtxn" path="res://Assets/Characters/Player/Attack2Animation/Attack2Animation17.png" id="32_xil01"]
 [ext_resource type="Texture2D" uid="uid://ca6cxoj3j7lmh" path="res://Assets/Characters/Player/Attack2Animation/Attack2Animation18.png" id="33_j5n50"]
+[ext_resource type="Texture2D" uid="uid://cgyqneei24ke" path="res://Assets/Characters/Player/LedgeHangPose.png" id="34_qrhp2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_frnhi"]
 radius = 7.0
@@ -164,6 +165,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("34_qrhp2")
+}],
+"loop": false,
+"name": &"hang",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("16_f0joh")
 }, {
 "duration": 1.0,
@@ -273,7 +282,7 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-33, -64)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"land"
+animation = &"hang"
 centered = false
 
 [node name="PushbackTimer" type="Timer" parent="."]
