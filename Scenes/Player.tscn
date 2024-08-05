@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://be7r62bppl55r"]
+[gd_scene load_steps=59 format=3 uid="uid://be7r62bppl55r"]
 
 [ext_resource type="Script" path="res://Scripts/Player.gd" id="1_kmc2f"]
 [ext_resource type="Texture2D" uid="uid://bj6phx3urxxpm" path="res://Assets/Characters/PlayerCharacter.png" id="2_b4rcf"]
@@ -52,6 +52,7 @@
 [ext_resource type="Texture2D" uid="uid://c10hnvr2cxtxn" path="res://Assets/Characters/Player/Attack2Animation/Attack2Animation17.png" id="32_xil01"]
 [ext_resource type="Texture2D" uid="uid://ca6cxoj3j7lmh" path="res://Assets/Characters/Player/Attack2Animation/Attack2Animation18.png" id="33_j5n50"]
 [ext_resource type="Texture2D" uid="uid://cgyqneei24ke" path="res://Assets/Characters/Player/LedgeHangPose.png" id="34_qrhp2"]
+[ext_resource type="Texture2D" uid="uid://ci5sqaf5l4aim" path="res://Assets/UI/W.png" id="53_lbl8q"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_frnhi"]
 radius = 7.0
@@ -282,7 +283,7 @@ one_shot = true
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-33, -64)
 sprite_frames = SubResource("SpriteFrames_xenpn")
-animation = &"hang"
+animation = &"walk"
 centered = false
 
 [node name="PushbackTimer" type="Timer" parent="."]
@@ -315,6 +316,20 @@ scale_amount_min = 1.5
 scale_amount_max = 2.0
 color_ramp = SubResource("Gradient_es8wu")
 color_initial_ramp = SubResource("Gradient_rtc7q")
+
+[node name="CheckMarker1" type="Marker2D" parent="."]
+position = Vector2(9, -24)
+
+[node name="W" type="Sprite2D" parent="CheckMarker1"]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("53_lbl8q")
+
+[node name="CheckMarker2" type="Marker2D" parent="."]
+position = Vector2(9, -17)
+
+[node name="W" type="Sprite2D" parent="CheckMarker2"]
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("53_lbl8q")
 
 [connection signal="area_entered" from="HitboxArea" to="." method="_on_hitbox_area_entered"]
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_body_entered"]

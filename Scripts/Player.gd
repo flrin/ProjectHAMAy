@@ -52,6 +52,9 @@ var attack_deceleration = DEFAULT_ATTACK_DECELERATION
 
 var stun_duration = 0.3
 
+var check_marker1
+var check_marker2
+
 var player_state = player_states.IDLE
 
 enum player_states {
@@ -63,6 +66,7 @@ enum player_states {
 	WALKING,
 	DODGING,
 	CLIMBING,
+	HANGING,
 	NONE
 }
 
@@ -85,8 +89,12 @@ func _ready():
 	heart_ammount = 4
 	damage_taken.connect(camera.player_hit)
 	
+	check_marker1 = $CheckMarker1
+	check_marker2 = $CheckMarker2
+	
 func _physics_process(delta):
-	print(player_states.keys()[player_state])
+	#print(player_states.keys()[player_state])
+	#print(global_position)
 	
 	#Process collisions
 
@@ -94,7 +102,7 @@ func _physics_process(delta):
 	if not is_on_floor():
 		if is_pushed == false:
 			velocity.y += gravity * delta
-			if velocity.y > 0 and player_state != player_states.JUMPING and player_state != player_states.CLIMBING and velocity.y > 100:
+			if velocity.y > 0 and player_state != player_states.JUMPING and player_state != player_states.CLIMBING and velocity.y > 100 and player_state != player_states.HANGING:
 				play_animation("jump")
 				player_state = player_states.JUMPING
 		else:
@@ -202,14 +210,19 @@ func _physics_process(delta):
 		#jump_counter -= 1
 		
 	#Handle ledge grab
-	_check_ledge_grab()
+	_check_ledge_grab()  #incerc sa cac si eu ceva
+	
 	if !is_pushed and !is_reading and !is_attacking:
-			if Input.is_action_just_pressed("ui_accept") and (is_on_floor() || is_grabbing) && !Input.is_action_pressed("ui_down"):
+			if Input.is_action_just_pressed("ui_accept") and (is_on_floor() || is_grabbing) && !Input.is_action_pressed("ui_down") and player_state == player_states.HANGING:
 				is_grabbing=false
 				velocity.y = JUMP_VELOCITY
 				player_state = player_states.NONE
 				check_available_state()
 			if is_grabbing : return #daca nu intelegi ce face asta da stiu ca intelegi ca esti baiat destept da freez la caracter mid air il fac sa iasa din functie si pe scurt nu ii se mai aplica nimic din _physics_process . tot cce poate face e sa sara codu de deasupra sau sa stea pe viata agatat din cauza ca nu poate face altceva pe scurt asta e tot codu de stat in aer lmao
+	
+	
+	
+	
 	#Handle dodge
 	if dodge_accel == 1:
 		if Input.is_action_just_pressed("ui_dodge") and is_on_floor() and player_state != player_states.ATTACKING and !is_reading:
@@ -265,6 +278,59 @@ func _physics_process(delta):
 	
 	move_and_slide()
 	
+
+func test_new_check_ledge_grab():
+	var check1_tile_position = get_tile_position(check_marker1.global_position)
+	var check2_tile_position = get_tile_position(check_marker2.global_position)
+
+	var check1_data = tilemap.get_cell_tile_data(1,check1_tile_position)
+	var check2_data = tilemap.get_cell_tile_data(1,check2_tile_position)
+	
+	var check1_type = null
+	var check2_type = null
+	
+	var player_tiles_position = []
+	var player_tiles_data = []
+	var player_pos_offset = 0
+	for i in range(0, 3): #of deci aici practic verifici 3 tile uri, unu la cap, unu la burta si unu la piscioare
+		var temp_player_pos = global_position
+		temp_player_pos.x += 6 * fake_direction
+		temp_player_pos.y += -player_pos_offset
+		player_tiles_position.append(get_tile_position(temp_player_pos))
+		player_tiles_data.append(tilemap.get_cell_tile_data(1,player_tiles_position[i]))
+		player_pos_offset += 24
+	
+	#print(player_tiles_position)
+	
+	for i in player_tiles_data:
+		if i:
+			return false #verifica daca toate tile urile sunt goale
+	
+	if check1_data:
+		check1_type = check1_data.get_custom_data("type")
+		snap_player_to_tile(check1_tile_position)
+	else:
+		if check2_data:
+			check2_type = check2_data.get_custom_data("type")
+			snap_player_to_tile(check2_tile_position)
+	
+	var is_ledge = check1_type == "ledge_1" or check2_type == "ledge_1"
+	
+	return is_ledge
+	
+
+func snap_player_to_tile(tile_pos):
+	var tile_global_position = tile_pos * 32
+	var new_pos = Vector2(0,0)
+	new_pos.y = tile_global_position.y + 40
+	new_pos.x = tile_global_position.x - 32 * (fake_direction - 1) / 2
+	
+	camera.move_to(new_pos, position)
+	
+	position = new_pos
+
+func get_tile_position(world_position):
+	return tilemap.local_to_map(tilemap.to_local(world_position))
 
 func set_collision_mask_from_list(list_to_set, value): #value e ori true ori false
 	for i in list_to_set:
@@ -392,14 +458,14 @@ func _check_ledge_grab():
 	var check_hand = not grab_ray_cast.is_colliding() 
 	var check_grabbing_height = grab_check_ray_cast.is_colliding()
 	var tile = grab_check_ray_cast.get_collision_point()
-	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && (_check_ledge_one_way_grab(tile) || is_on_wall_only()) #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
+	
+	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only() #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
+	can_grab = can_grab or (not is_grabbing and test_new_check_ledge_grab())
 	
 	if can_grab:
 		is_grabbing = true
 		play_animation("hang")
-		#
-		#animatie de ledge climb play
-		#
+		player_state = player_states.HANGING
 		
 	if is_on_floor():
 		grab_check_ray_cast.enabled=true
