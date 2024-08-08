@@ -25,11 +25,20 @@ func _process(delta):
 func change_health(attack):
 	health_bar.change_candles(-attack.attack_damage)
 
+func change_num_health(num):
+	health_bar.change_candles(-num)
+
+func set_candle_number(num):
+	health_bar.set_candle_number(num)
+
 func change_max_health(num):
 	health_bar.change_max_candles(num)
 
 func get_max_candles():
 	return health_bar.max_candles
+
+func set_max_candles(num):
+	health_bar.set_max_candle_number(num)
 
 func interacted_with_npc(npc):
 	var temp_max

@@ -87,5 +87,5 @@ func move_to(new_pos, old_pos):
 	new_position = new_pos
 	old_position = old_pos
 	offset -= new_pos - old_pos
-	print(offset)
+	
 	is_moving = true

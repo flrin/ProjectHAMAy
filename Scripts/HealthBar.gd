@@ -57,4 +57,8 @@ func set_max_candle_number(num):
 	number_of_lit_candels = num
 	max_candles = num
 
-
+func set_candle_number(num):
+	for i in range(0,num):
+		candles[i].texture = lit_candels_res[i]
+	for i in range(num,max_candles):
+		candles[i].texture = unlit_candels_res[i]

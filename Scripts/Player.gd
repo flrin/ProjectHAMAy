@@ -21,6 +21,7 @@ var collision_shape
 var hitbox_area
 var is_pushed = false
 var heart_ammount
+var max_heart_ammount
 var player_model = load("res://Assets/Characters/PlayerCharacter.png")
 var afterimage_scene = load("res://Scenes/AfterImage.tscn")
 var afterimage_timer
@@ -86,7 +87,9 @@ func _ready():
 	grab_check_ray_cast = $GrabCheckRayCast
 	grab_ray_cast = $GrabRayCast
 	interacted_with_npc.connect(ui.interacted_with_npc)
-	heart_ammount = 4
+	
+	max_heart_ammount = 4
+	heart_ammount = max_heart_ammount
 	damage_taken.connect(camera.player_hit)
 	
 	check_marker1 = $CheckMarker1
@@ -94,6 +97,7 @@ func _ready():
 	
 	add_to_group("saveable")
 	
+
 func _physics_process(delta):
 	#print(player_states.keys()[player_state])
 	#print(global_position)
@@ -308,26 +312,38 @@ func test_new_check_ledge_grab():
 		if i:
 			return false #verifica daca toate tile urile sunt goale
 	
+	var is_tile = 0
+	
 	if check1_data:
 		check1_type = check1_data.get_custom_data("type")
-		snap_player_to_tile(check1_tile_position)
+		is_tile = 1
 	else:
 		if check2_data:
 			check2_type = check2_data.get_custom_data("type")
-			snap_player_to_tile(check2_tile_position)
+			is_tile = 2
+	
+	if !is_tile:
+		return false
 	
 	var is_ledge = check1_type == "ledge_1" or check2_type == "ledge_1"
+	
+	if is_ledge:
+		if is_tile == 1:
+			snap_player_to_tile(check1_tile_position, true)
+		else: 
+			snap_player_to_tile(check2_tile_position, true)
 	
 	return is_ledge
 	
 
-func snap_player_to_tile(tile_pos):
+func snap_player_to_tile(tile_pos, is_on_ledge):
 	var tile_global_position = tile_pos * 32
 	var new_pos = Vector2(0,0)
 	new_pos.y = tile_global_position.y + 40
 	new_pos.x = tile_global_position.x - 32 * (fake_direction - 1) / 2
 	
-	camera.move_to(new_pos, position)
+	if is_on_ledge:
+		camera.move_to(new_pos, position)
 	
 	position = new_pos
 
@@ -459,7 +475,7 @@ func _check_ledge_grab():
 	var is_falling = velocity.y >= 0
 	var check_hand = not grab_ray_cast.is_colliding() 
 	var check_grabbing_height = grab_check_ray_cast.is_colliding()
-	var tile = grab_check_ray_cast.get_collision_point()
+	#var tile = grab_check_ray_cast.get_collision_point()
 	
 	var can_grab = is_falling && check_hand && check_grabbing_height && not is_grabbing && is_on_wall_only() #sterge && is_on_wall_only() ca sa nu trebuiasca a si d
 	can_grab = can_grab or (not is_grabbing and test_new_check_ledge_grab())
@@ -537,3 +553,8 @@ func save():
 		"heart_ammount" : heart_ammount,
 	}
 	return save_dict
+
+func on_load():
+	ui.set_max_candles(max_heart_ammount)
+	ui.set_candle_number(heart_ammount)
+	

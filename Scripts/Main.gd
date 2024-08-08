@@ -1,8 +1,12 @@
 extends Node
 
 var save_manager = SaveManager.new()
+var player 
 
 func _ready():
+	player = $Player
+	player.on_load()
+	
 	save_manager.get_ready(self)
 
 func _physics_process(delta):

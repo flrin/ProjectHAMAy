@@ -42,5 +42,8 @@ func load_game():
 		for i in node_data.keys():
 			if i != "scene_name" or i != "parent" or i != "pos_x" or i != "pos_y":
 				new_node.set(i, node_data[i])
+		
+		if new_node.has_method("on_load"):
+			new_node.on_load()
 	
 	save_file.close()
