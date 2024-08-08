@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://2e5wlli0atly"]
+[gd_scene load_steps=10 format=3 uid="uid://2e5wlli0atly"]
 
 [ext_resource type="Texture2D" uid="uid://65iwbucnc0nb" path="res://Assets/Backgrounds/Background1.png" id="1_2qbad"]
 [ext_resource type="PackedScene" uid="uid://21gmtvk717cv" path="res://Scenes/UI.tscn" id="1_reoax"]
+[ext_resource type="Script" path="res://Scripts/Main.gd" id="1_wdu1c"]
 [ext_resource type="PackedScene" uid="uid://be7r62bppl55r" path="res://Scenes/Player.tscn" id="2_trfb5"]
 [ext_resource type="PackedScene" uid="uid://mbp2hl0vpxhb" path="res://Scenes/Ghoul.tscn" id="3_7ygky"]
 [ext_resource type="PackedScene" uid="uid://davy56t4yxi7i" path="res://Scenes/TileMap.tscn" id="3_t750v"]
@@ -10,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://3ouwiaxypcqv" path="res://Scenes/Horseman.tscn" id="8_p8fee"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_wdu1c")
 
 [node name="TileMap" parent="." instance=ExtResource("3_t750v")]
 
@@ -22,7 +24,7 @@ texture = ExtResource("1_2qbad")
 [node name="Cat" parent="." groups=["npc"] instance=ExtResource("6_fgqlj")]
 position = Vector2(146, -160)
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("2_trfb5")]
+[node name="Player" parent="." groups=["player", "saveable"] instance=ExtResource("2_trfb5")]
 position = Vector2(-118, -633)
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]

@@ -92,6 +92,8 @@ func _ready():
 	check_marker1 = $CheckMarker1
 	check_marker2 = $CheckMarker2
 	
+	add_to_group("saveable")
+	
 func _physics_process(delta):
 	#print(player_states.keys()[player_state])
 	#print(global_position)
@@ -525,3 +527,13 @@ func check_available_state():
 		else:
 			player_state = player_states.JUMPING
 			play_animation("jump")
+
+func save():
+	var save_dict = {
+		"scene_name" : "res://Scenes/Player.tscn",
+		"parent" : get_parent().get_path(), #parinetele e doar path ul catre el, nu node ul in sine
+		"pos_x" : global_position.x,
+		"pos_y" : global_position.y,
+		"heart_ammount" : heart_ammount,
+	}
+	return save_dict
