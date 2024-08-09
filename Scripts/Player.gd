@@ -96,6 +96,7 @@ func _ready():
 	check_marker2 = $CheckMarker2
 	
 	add_to_group("saveable")
+	add_to_group("player")
 	
 
 func _physics_process(delta):

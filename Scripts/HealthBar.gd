@@ -58,6 +58,11 @@ func set_max_candle_number(num):
 	max_candles = num
 
 func set_candle_number(num):
+	if num > 0:
+		full_ball.visible = true
+		broken_ball.visible = false
+	
+	number_of_lit_candels = num
 	for i in range(0,num):
 		candles[i].texture = lit_candels_res[i]
 	for i in range(num,max_candles):
